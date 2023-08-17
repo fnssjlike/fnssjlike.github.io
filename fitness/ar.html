@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="../static/vuetify/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="../static/vuetify/css/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>Fitness</title>
+</head>
+<body>
+<div id="app" :style="isAndroidOrIOS">
+    <v-app>
+        <v-main>
+            <v-carousel v-model="model" height="100%" :show-arrows="false" hide-delimiters>
+                <v-carousel-item>
+                    <div class="d-block pt-12 px-5 justify-center" :style="bgColor" style="height: 355px">
+                        <div class="d-flex justify-center">
+                            <v-img :src="picPrefix+'/background.png'" max-width="311"></v-img>
+                        </div>
+                        <div style="position:absolute;top: 40px;" class="justify-center">
+                            <v-img :src="picPrefix+'/fitness.png'" max-width="322"></v-img>
+                        </div>
+                    </div>
+                    <div class="px-10 title font-weight-black pt-9 ">
+                        Fitness
+                    </div>
+                    <div class="px-10 subtitle-1 font-weight-light pt-5" style="line-height: 23px;">
+                        المقاييس الثلاثة الرئيسية ، النشاط ، التمرين ، والحركة ، هي نظرة عامة بديهية وسريعة لنشاطك اليومي. ستمتلئ الدائرة عندما يصل كل مقياس إلى الهدف المحدد.<br />
+النشاط: قياس حرق السعرات الحرارية أثناء ممارسة النشاط.<br />
+التمرين: قم بقياس المدة التي أكملت فيها تمرينًا متوسط إلى عالي الكثافة.<br />
+الحركة: قم بقياس مدى قدرتك على الوقوف والمشي بشكل جيد طوال اليوم.
+                    </div>
+                </v-carousel-item>
+                <v-carousel-item>
+                    <div class="d-block pt-12 px-5 justify-center" :style="bgColor" style="height: 355px">
+                        <div class="d-flex justify-center">
+                            <v-img :src="picPrefix+'/background.png'" max-width="311"></v-img>
+                        </div>
+                        <div style="position:absolute;top: 100px;" class="justify-center">
+                            <v-img :src="picPrefix+'/activity.png'" max-width="322"></v-img>
+                        </div>
+                    </div>
+                    <div class="px-10 title font-weight-black pt-9">
+                        نشاط
+                    </div>
+                    <div class="px-10 subtitle-1 font-weight-light pt-5" style="line-height: 23px;">
+                        يمكنك حرق السعرات الحرارية من خلال الأنشطة اليومية الخفيفة أو الجري أو ركوب الدراجات أو ممارسة التمارين في صالة الألعاب الرياضية للمساعدة في تحسين لياقتك.
+                    </div>
+                </v-carousel-item>
+                <v-carousel-item>
+                    <div class="d-block pt-12 px-5 justify-center" :style="bgColor" style="height: 355px">
+                        <div class="d-flex justify-center">
+                            <v-img :src="picPrefix+'/background.png'" max-width="311"></v-img>
+                        </div>
+                        <div style="position:absolute;top: 100px;" class="justify-center">
+                            <v-img :src="picPrefix+'/exercise.png'" max-width="322"></v-img>
+                        </div>
+                    </div>
+                    <div class="px-10 title font-weight-black pt-9">
+                        ممارسة
+                    </div>
+                    <div class="px-10 subtitle-1 font-weight-light pt-5" style="line-height: 23px;">
+                        التمرين هو تسجيل لدقائق من النشاط المعتدل إلى عالي الكثافة. 30-40 دقيقة من التمارين المعتدلة إلى عالية الكثافة كل يوم يمكن أن تساعد في تقليل خطر الإصابة بالأمراض المزمنة.
+                    </div>
+                </v-carousel-item>
+                <v-carousel-item>
+                    <div class="d-block pt-12 px-5 justify-center" :style="bgColor" style="height: 355px">
+                        <div class="d-flex justify-center">
+                            <v-img :src="picPrefix+'/background.png'" max-width="311"></v-img>
+                        </div>
+                        <div style="position:absolute;top: 100px;">
+                            <v-img :src="picPrefix+'/walkaround.png?version=2'" max-width="322"></v-img>
+                        </div>
+                    </div>
+                    <div class="px-10 title font-weight-black pt-9">
+                        يتمشى
+                    </div>
+                    <div class="px-10 subtitle-1 font-weight-light pt-5" style="line-height: 23px;">
+                        الحركة هي تحديد هدف نشاط كل ساعة وتسجيل مجموع الساعات التي يتم فيها الوصول إلى الهدف. يمكن أن يساعد الوقوف والمشي كل ساعة في تقليل مخاطر الإصابة بالأمراض المزمنة الناتجة عن الجلوس لفترات طويلة.
+                    </div>
+                </v-carousel-item>
+            </v-carousel>
+            <v-footer app color="transparent">
+                <v-row justify="center" class="pb-6" :class="isIos?'mb-16':''">
+                    <div v-for="index in 4">
+                        <div style="border-radius: 3px;width: 18px;height:6px;background: #3DC3C9" class="ml-1" v-if="index-1 == model"></div>
+                        <div style="border-radius: 3px;width: 6px;height:6px;background: #BDF0F2" class="ml-1" v-else></div>
+                    </div>
+                </v-row>
+            </v-footer>
+        </v-main>
+    </v-app>
+</div>
+
+<script src="../static/vuetify/js/vue.js"></script>
+<script src="../static/vuetify/js/vuetify.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify({
+            theme:{dark: false}
+        }),
+        data:function(){
+            return {
+                model:0
+            }
+        },
+        computed: {
+            picPrefix: function () {
+                return '../static/images/fitness/'+(this.$vuetify.theme.dark?'dark':'light');
+            },
+            picBasePrefix: function () {
+                return '../static/images/fitness';
+            },
+            bgColor: function () {
+                return {
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'#F7F7F7'
+                };
+            },
+            isIos() {
+                var u = navigator.userAgent;
+                var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                if (isiOS) {
+                    return true
+                }
+
+                return false
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="../static/vuetify/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="../static/vuetify/css/vuetify.min.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/fontawesome.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/brands.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/solid.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>장치 연결</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="../static/vuetify/js/vue.js"></script>
+<script src="../static/vuetify/js/vuetify.js"></script>
+<script type="text/x-template" id="app-template">
+    <v-app>
+        <v-main>
+            <v-container class="my-6">
+                <v-container>
+                    <div class="body-1 font-weight-bold">시스템 블루투스 설정</div>
+                    <div class="mt-6 d-flex px-5 justify-center" :style="contentPicStyle">
+                        <v-img :src="picPrefix+'/hand_with_watch.png?version=2'" max-width="106" height="152" class="mt-10"></v-img>
+                        <v-img :src="picPrefix+'/hand_with_phone.png?version=2'" max-width="106" height="166" class="ml-6 mt-6"></v-img>
+                    </div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        이 설정을 하기 전에 앱과 시계가 연결되어 있는지 확인하세요.<br/>
+                        1. 휴대폰 시스템의 '설정 → 블루투스'에서 블루투스 스위치를 켭니다(아래 그림 참조).<br />
+2. 장치의 Bluetooth 이름을 확인한 후 "연결됨"이 표시되어 연결이 성공했음을 나타냅니다.<br />
+3. "연결되지 않음"으로 표시되면 "연결되지 않음" 위치를 클릭하여 휴대폰 시스템과 장치 간의 블루투스 연결을 완료합니다.
+                    </div>
+                    <div class="d-flex pt-6 justify-center" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">설정</div>
+                                    <div class="caption ml-13">블루투스</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">블루투스</div>
+                                    <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                </div>
+
+                                <div class="d-flex mt-3 px-3 justify-end align-center" :style="contentPhoneStyle" style="width: 193px;height: 48px">
+                                    <div class="caption font-weight-light mt-n5" style="position: relative;width: 193px;height: 44px">
+                                        <div  style="transform: scale(0.91);position: absolute;z-index: 0;height: 44px;top: 22px;right:0px">
+                                            연결됨
+                                        </div>
+                                        <div :style="[circleBorderStyle,{zIndex:2,position:'absolute',paddingLeft:'-22px',overflow:'auto',right:'12px'}]" class="text-center d-flex align-center">
+                                            <div  style="transform: scale(0.91);position: relative;width: 44px;flex-shrink: 0;margin-left: -16px;">
+                                                연결됨...
+                                            </div>
+                                            <v-img :src="picPrefix+'/sb_icon_about.png?version=2'" max-width="10" height="10"></v-img>
+                                        </div>
+                                        <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 32px;right: 12px;"></v-img>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        휴대폰 시스템에서 &quot;Fitnus&quot;의 블루투스 스위치를 켭니다(아래 그림 참조).
+                    </div>
+                    <div class="d-flex pt-6 justify-center" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">설정</div>
+                                    <div class="caption ml-10">Fitnus</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">블루투스</div>
+                                    <div :style="[circleBorderStyle]" class="text-center d-flex align-center justify-center">
+                                        <div style="position: relative">
+                                            <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                            <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 20px;left: 22px;"></v-img>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body-1 font-weight-bold mt-9">주의사항</div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        기기와 앱 간의 연결은 좋은 블루투스 연결 범위 내에서 유지되어야 합니다. 1m 이내로 유지하는 것이 좋습니다(거리가 가까울수록 신호가 좋아짐). 블루투스 연결 효과에 영향을 미치지 않도록 기기와 휴대폰 사이의 연결은 벽, 문, 창과 같은 칸막이를 피해야 합니다.
+                    </div>
+                    <div class="body-1 font-weight-bold mt-9">장치 블루투스를 연결할 수 없습니다</div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        일부 장치 블루투스는 단일 휴대 전화 연결만 지원합니다. 시계가 다른 휴대 전화에 연결되어 있는지 확인하여 새 휴대 전화에 연결할 수 없습니다.
+                        <br/><br/>
+                        휴대 전화 시스템 &quot;설정 → Bluetooth&quot;를 열고 연결하려는 장치의 Bluetooth 이름을 선택하고 옆에 있는 &quot;i&quot; 아이콘을 클릭하고 Bluetooth 세부 정보 페이지로 이동한 다음 &quot;이 장치 무시&quot;를 선택합니다. 그런 다음 바인딩해야 할 휴대 전화에 연결하십시오.
+                    </div>
+                    <div class="d-flex pt-6 justify-center" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">설정</div>
+                                    <div class="caption ml-13">블루투스</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">블루투스</div>
+                                    <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                </div>
+
+                                <div class="d-flex mt-3 px-3 justify-end align-center" :style="contentPhoneStyle" style="width: 193px;height: 48px">
+                                    <div class="caption font-weight-light mt-n5" style="position: relative;width: 193px;height: 44px">
+                                        <div  style="transform: scale(0.91);position: absolute;z-index: 0;height: 44px;top: 22px;right:0px">
+                                            연결됨
+                                        </div>
+                                        <div :style="[circleBorderStyle,{zIndex:2,position:'absolute',paddingLeft:'-22px',overflow:'auto',right:'12px'}]" class="text-center d-flex align-center">
+                                            <div  style="transform: scale(0.91);position: relative;width: 44px;flex-shrink: 0;margin-left: -16px;">
+                                                연결됨...
+                                            </div>
+                                            <v-img :src="picPrefix+'/sb_icon_about.png?version=2'" max-width="10" height="10"></v-img>
+                                        </div>
+                                        <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 32px;right: 12px;"></v-img>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex pt-6 justify-center mt-3" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">설정</div>
+                                    <div class="caption ml-13">블루투스</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">블루투스</div>
+                                    <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                </div>
+
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="[contentPhoneStyle,{position:'relative'}]" style="width: 193px;height: 48px">
+                                    <div class="caption blue--text ml-1">이 장치 무시</div>
+                                    <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 32px;left: 85px;"></v-img>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 body-2 font-weight-medium" :class="isIos?'mb-16':''">
+                        주변에 블루투스 전자기기가 너무 많은지(신호 간섭이 발생할 수 있음) 확인하고, 신호 간섭이 적은 곳으로 이동하여 연결을 시도하세요.
+                        <br/><br/>
+                        일부 휴대폰은 화면이 꺼지면 자동으로 연결이 끊어집니다. 휴대폰 시스템에서 블루투스를 끄도록 설정한 절전 모드 때문일 수 있습니다. 절전 모드를 종료하고 다시 시도할 수 있습니다.
+                        <br/><br/>
+                        위의 방법으로 연결 문제가 해결되지 않으면 장치를 재설정(초기화)하고 다시 연결을 시도하는 것이 좋습니다.
+                        <br/><br/>
+                    </div>
+                </v-container>
+            </v-container>
+        </v-main>
+    </v-app>
+</script>
+<script>
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify({
+            theme:{dark: false}
+        }),
+        data: function () {
+            const checkCircleStyle = {
+                width: '5px',
+                height: '5px',
+                border: '1px solid #3DC3C9',
+                borderRadius: '50%'
+            }
+
+            const checkDividerStyle = {
+                width: '20px',
+                height: '1px',
+                background: '#3DC3C9',
+            }
+
+            const sheetStyle = {
+                borderRadius: '10px',
+            }
+
+            return {
+                index: 0,
+                sheetStyle,
+                checkDividerStyle,
+                checkCircleStyle
+            }
+        },
+        computed: {
+            selectedStyle:function(){
+                return {
+                    width: '109px',
+                    height: '120px',
+                    background: this.$vuetify.theme.dark?'#2A2A2A':'#FFFFFF',
+                    borderRadius: '10px'
+                };
+            },
+            notSelectedStyle:function(){
+                return {
+                    width: '109px',
+                    height: '120px',
+                    background: 'transparent',
+                    borderRadius: '10px',
+                };
+            },
+            circleBorderStyle:function(){
+                return {
+                    width: '44px',
+                    height: '44px',
+                    border: '2px solid #3DC3C9',
+                    borderRadius: '50%',
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'white'
+                }
+            },
+            contentPicStyle: function(){
+                return {
+                    borderRadius: '10px',
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'#F7F7F7'
+                }
+            },
+            contentPhoneStyle: function(){
+                return {
+                    borderRadius: '10px',
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'white'
+                }
+            },
+            picPrefix: function () {
+                return '../static/images/connect/'+(this.$vuetify.theme.dark?'dark':'light');
+            },
+            picBasePrefix: function () {
+                return '../static/images/connect';
+            },
+            bgColor: function () {
+                return {
+                    backgroundColor: this.$vuetify.theme.dark?'#121212':'#F7F7F7'
+                };
+            },
+            isIos() {
+                const u = navigator.userAgent;
+                const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                if (isiOS) {
+                    return true
+                }
+
+                return false
+            }
+        },
+        methods: {
+            onSelected(index) {
+                this.index = index
+            }
+        },
+        template: '#app-template'
+    })
+</script>
+</body>
+</html>

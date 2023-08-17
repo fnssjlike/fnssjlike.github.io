@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="../static/vuetify/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="../static/vuetify/css/vuetify.min.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/fontawesome.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/brands.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/solid.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>Kết nối thiết bị</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="../static/vuetify/js/vue.js"></script>
+<script src="../static/vuetify/js/vuetify.js"></script>
+<script type="text/x-template" id="app-template">
+    <v-app>
+        <v-main>
+            <v-container class="my-6">
+                <v-container>
+                    <div class="body-1 font-weight-bold">Cài đặt hệ thống Bluetooth</div>
+                    <div class="mt-6 d-flex px-5 justify-center" :style="contentPicStyle">
+                        <v-img :src="picPrefix+'/hand_with_watch.png?version=2'" max-width="106" height="152" class="mt-10"></v-img>
+                        <v-img :src="picPrefix+'/hand_with_phone.png?version=2'" max-width="106" height="166" class="ml-6 mt-6"></v-img>
+                    </div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        Trước khi thực hiện cài đặt này, hãy đảm bảo rằng Ứng dụng và đồng hồ được kết nối<br/>
+                        1. Bật công tắc Bluetooth trong "Cài đặt → Bluetooth" của hệ thống điện thoại di động (như hình dưới đây)<br />
+2. Sau khi kiểm tra tên Bluetooth của thiết bị, "Đã kết nối" hiển thị, cho biết kết nối thành công<br />
+3. Khi nó được hiển thị là "Chưa kết nối", hãy nhấp vào vị trí "Chưa kết nối" để hoàn tất kết nối Bluetooth giữa hệ thống điện thoại di động và thiết bị.
+                    </div>
+                    <div class="d-flex pt-6 justify-center" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">Cài đặt</div>
+                                    <div class="caption ml-13">Bluetooth</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">Bluetooth</div>
+                                    <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                </div>
+
+                                <div class="d-flex mt-3 px-3 justify-end align-center" :style="contentPhoneStyle" style="width: 193px;height: 48px">
+                                    <div class="caption font-weight-light mt-n5" style="position: relative;width: 193px;height: 44px">
+                                        <div  style="transform: scale(0.91);position: absolute;z-index: 0;height: 44px;top: 22px;right:0px">
+                                            kết nối
+                                        </div>
+                                        <div :style="[circleBorderStyle,{zIndex:2,position:'absolute',paddingLeft:'-22px',overflow:'auto',right:'12px'}]" class="text-center d-flex align-center">
+                                            <div  style="transform: scale(0.91);position: relative;width: 44px;flex-shrink: 0;margin-left: -16px;">
+                                                kết nối...
+                                            </div>
+                                            <v-img :src="picPrefix+'/sb_icon_about.png?version=2'" max-width="10" height="10"></v-img>
+                                        </div>
+                                        <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 32px;right: 12px;"></v-img>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        Bật công tắc Bluetooth của Fitnus trong hệ thống điện thoại di động (như hình bên dưới).
+                    </div>
+                    <div class="d-flex pt-6 justify-center" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">Cài đặt</div>
+                                    <div class="caption ml-10">Fitnus</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">Bluetooth</div>
+                                    <div :style="[circleBorderStyle]" class="text-center d-flex align-center justify-center">
+                                        <div style="position: relative">
+                                            <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                            <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 20px;left: 22px;"></v-img>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body-1 font-weight-bold mt-9">Các biện pháp phòng ngừa</div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        Kết nối giữa thiết bị và Ứng dụng cần được giữ trong phạm vi kết nối Bluetooth tốt. Nên để nó trong vòng 1 mét (khoảng cách càng gần thì tín hiệu càng tốt). Để không ảnh hưởng đến hiệu ứng kết nối Bluetooth, kết nối giữa thiết bị và điện thoại di động cần tránh các vách ngăn như tường, cửa ra vào và cửa sổ.
+                    </div>
+                    <div class="body-1 font-weight-bold mt-9">Thiết bị Bluetooth không thể kết nối</div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        Thiết bị Bluetooth chỉ hỗ trợ kết nối với một điện thoại di động; kiểm tra xem đồng hồ đã được kết nối với điện thoại di động khác chưa. Nếu nó đã được kết nối với một điện thoại di động khác, điều này sẽ ngăn nó không thể kết nối với điện thoại di động mới.
+                        <br/><br/>
+                        Mở hệ thống điện thoại di động &quot;Cài đặt → Bluetooth&quot;, chọn tên Bluetooth của thiết bị bạn đang kết nối, nhấp vào biểu tượng &quot;i&quot; bên cạnh nó, nhập trang chi tiết Bluetooth, chọn &quot;Bỏ qua thiết bị này&quot;, sau đó kết nối với điện thoại cần được ràng buộc.
+                    </div>
+                    <div class="d-flex pt-6 justify-center" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">Cài đặt</div>
+                                    <div class="caption ml-13">Bluetooth</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">Bluetooth</div>
+                                    <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                </div>
+
+                                <div class="d-flex mt-3 px-3 justify-end align-center" :style="contentPhoneStyle" style="width: 193px;height: 48px">
+                                    <div class="caption font-weight-light mt-n5" style="position: relative;width: 193px;height: 44px">
+                                        <div  style="transform: scale(0.91);position: absolute;z-index: 0;height: 44px;top: 22px;right:0px">
+                                            kết nối
+                                        </div>
+                                        <div :style="[circleBorderStyle,{zIndex:2,position:'absolute',paddingLeft:'-22px',overflow:'auto',right:'12px'}]" class="text-center d-flex align-center">
+                                            <div  style="transform: scale(0.91);position: relative;width: 44px;flex-shrink: 0;margin-left: -16px;">
+                                                kết nối...
+                                            </div>
+                                            <v-img :src="picPrefix+'/sb_icon_about.png?version=2'" max-width="10" height="10"></v-img>
+                                        </div>
+                                        <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 32px;right: 12px;"></v-img>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex pt-6 justify-center mt-3" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">Cài đặt</div>
+                                    <div class="caption ml-13">Bluetooth</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">Bluetooth</div>
+                                    <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                </div>
+
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="[contentPhoneStyle,{position:'relative'}]" style="width: 193px;height: 48px">
+                                    <div class="caption blue--text ml-1">Bỏ qua thiết bị này</div>
+                                    <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 32px;left: 85px;"></v-img>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 body-2 font-weight-medium" :class="isIos?'mb-16':''">
+                        Kiểm tra xem có quá nhiều thiết bị điện tử Bluetooth trong môi trường của bạn (có thể gây nhiễu tín hiệu) hay không, di chuyển đến khu vực ít bị nhiễu tín hiệu hơn và cố gắng kết nối.
+                        <br/><br/>
+                        Một số điện thoại di động tự động ngắt kết nối sau khi màn hình tắt. Có thể do hệ thống điện thoại di động đặt chế độ tiết kiệm năng lượng để tắt Bluetooth. Bạn có thể thoát khỏi chế độ tiết kiệm năng lượng và thử lại.
+                        <br/><br/>
+                        Nếu không có phương pháp nào ở trên giải quyết được sự cố kết nối, bạn nên đặt lại thiết bị (khôi phục cài đặt gốc) và thử kết nối lại.
+                        <br/><br/>
+                    </div>
+                </v-container>
+            </v-container>
+        </v-main>
+    </v-app>
+</script>
+<script>
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify({
+            theme:{dark: false}
+        }),
+        data: function () {
+            const checkCircleStyle = {
+                width: '5px',
+                height: '5px',
+                border: '1px solid #3DC3C9',
+                borderRadius: '50%'
+            }
+
+            const checkDividerStyle = {
+                width: '20px',
+                height: '1px',
+                background: '#3DC3C9',
+            }
+
+            const sheetStyle = {
+                borderRadius: '10px',
+            }
+
+            return {
+                index: 0,
+                sheetStyle,
+                checkDividerStyle,
+                checkCircleStyle
+            }
+        },
+        computed: {
+            selectedStyle:function(){
+                return {
+                    width: '109px',
+                    height: '120px',
+                    background: this.$vuetify.theme.dark?'#2A2A2A':'#FFFFFF',
+                    borderRadius: '10px'
+                };
+            },
+            notSelectedStyle:function(){
+                return {
+                    width: '109px',
+                    height: '120px',
+                    background: 'transparent',
+                    borderRadius: '10px',
+                };
+            },
+            circleBorderStyle:function(){
+                return {
+                    width: '44px',
+                    height: '44px',
+                    border: '2px solid #3DC3C9',
+                    borderRadius: '50%',
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'white'
+                }
+            },
+            contentPicStyle: function(){
+                return {
+                    borderRadius: '10px',
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'#F7F7F7'
+                }
+            },
+            contentPhoneStyle: function(){
+                return {
+                    borderRadius: '10px',
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'white'
+                }
+            },
+            picPrefix: function () {
+                return '../static/images/connect/'+(this.$vuetify.theme.dark?'dark':'light');
+            },
+            picBasePrefix: function () {
+                return '../static/images/connect';
+            },
+            bgColor: function () {
+                return {
+                    backgroundColor: this.$vuetify.theme.dark?'#121212':'#F7F7F7'
+                };
+            },
+            isIos() {
+                const u = navigator.userAgent;
+                const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                if (isiOS) {
+                    return true
+                }
+
+                return false
+            }
+        },
+        methods: {
+            onSelected(index) {
+                this.index = index
+            }
+        },
+        template: '#app-template'
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="../static/vuetify/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="../static/vuetify/css/vuetify.min.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/fontawesome.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/brands.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/solid.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>اتصال الجهاز</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="../static/vuetify/js/vue.js"></script>
+<script src="../static/vuetify/js/vuetify.js"></script>
+<script type="text/x-template" id="app-template">
+    <v-app>
+        <v-main>
+            <v-container class="my-6">
+                <v-container>
+                    <div class="body-1 font-weight-bold">إعدادات نظام البلوتوث</div>
+                    <div class="mt-6 d-flex px-5 justify-center" :style="contentPicStyle">
+                        <v-img :src="picPrefix+'/hand_with_watch.png?version=2'" max-width="106" height="152" class="mt-10"></v-img>
+                        <v-img :src="picPrefix+'/hand_with_phone.png?version=2'" max-width="106" height="166" class="ml-6 mt-6"></v-img>
+                    </div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        قبل إجراء هذا الإعداد ، تأكد من توصيل التطبيق والساعة<br/>
+                        1. قم بتشغيل مفتاح Bluetooth في "Settings → Bluetooth" لنظام الهاتف المحمول (كما هو موضح أدناه)<br />
+2. بعد التحقق من اسم Bluetooth الخاص بالجهاز ، يتم عرض "Connected" للإشارة إلى نجاح الاتصال<br />
+3. عندما يتم عرض الحالة على أنها "غير متصل" ، انقر فوق موضع "غير متصل" لإكمال اتصال Bluetooth بين نظام الهاتف المحمول والجهاز.
+                    </div>
+                    <div class="d-flex pt-6 justify-center" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">إعدادات</div>
+                                    <div class="caption ml-13">Bluetooth</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">Bluetooth</div>
+                                    <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                </div>
+
+                                <div class="d-flex mt-3 px-3 justify-end align-center" :style="contentPhoneStyle" style="width: 193px;height: 48px">
+                                    <div class="caption font-weight-light mt-n5" style="position: relative;width: 193px;height: 44px">
+                                        <div  style="transform: scale(0.91);position: absolute;z-index: 0;height: 44px;top: 22px;right:0px">
+                                            متصل
+                                        </div>
+                                        <div :style="[circleBorderStyle,{zIndex:2,position:'absolute',paddingLeft:'-22px',overflow:'auto',right:'12px'}]" class="text-center d-flex align-center">
+                                            <div  style="transform: scale(0.91);position: relative;width: 44px;flex-shrink: 0;margin-left: -16px;">
+                                                متصل...
+                                            </div>
+                                            <v-img :src="picPrefix+'/sb_icon_about.png?version=2'" max-width="10" height="10"></v-img>
+                                        </div>
+                                        <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 32px;right: 12px;"></v-img>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        قم بتشغيل مفتاح Bluetooth الخاص بـ Fitnus في نظام الهاتف المحمول (كما هو موضح أدناه).
+                    </div>
+                    <div class="d-flex pt-6 justify-center" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">إعدادات</div>
+                                    <div class="caption ml-10">Fitnus</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">Bluetooth</div>
+                                    <div :style="[circleBorderStyle]" class="text-center d-flex align-center justify-center">
+                                        <div style="position: relative">
+                                            <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                            <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 20px;left: 22px;"></v-img>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body-1 font-weight-bold mt-9">احتياطات</div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        يجب أن يظل الاتصال بين الجهاز والتطبيق ضمن نطاق اتصال Bluetooth جيد. يوصى بإبقائها في حدود متر واحد (كلما كانت المسافة أقرب ، كانت الإشارة أفضل). من أجل عدم التأثير على تأثير اتصال Bluetooth ، يجب أن يتجنب الاتصال بين الجهاز والهاتف المحمول الأقسام مثل الجدران والأبواب والنوافذ.
+                    </div>
+                    <div class="body-1 font-weight-bold mt-9">جهاز Bluetooth لا يمكنه الاتصال</div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        يدعم الجهاز Bluetooth الاتصال بهاتف محمول واحد فقط ؛ يرجى التحقق مما إذا كانت الساعة متصلة بهواتف محمولة أخرى. إذا كان متصلاً بالفعل بهاتف محمول آخر ، فسيؤدي ذلك إلى فشل الاتصال بالهاتف المحمول الجديد.
+                        <br/><br/>
+                        افتح نظام الهاتف المحمول &quot;الإعدادات ← البلوتوث&quot; ، حدد اسم البلوتوث للجهاز الذي تتصل به ، وانقر على أيقونة &quot;i&quot; بجواره ، وادخل إلى صفحة تفاصيل البلوتوث ، وحدد &quot;تجاهل هذا الجهاز&quot; ، ثم قم بتوصيل الجهاز بالهاتف الذي يحتاج إلى ربط.
+                    </div>
+                    <div class="d-flex pt-6 justify-center" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">إعدادات</div>
+                                    <div class="caption ml-13">Bluetooth</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">Bluetooth</div>
+                                    <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                </div>
+
+                                <div class="d-flex mt-3 px-3 justify-end align-center" :style="contentPhoneStyle" style="width: 193px;height: 48px">
+                                    <div class="caption font-weight-light mt-n5" style="position: relative;width: 193px;height: 44px">
+                                        <div  style="transform: scale(0.91);position: absolute;z-index: 0;height: 44px;top: 22px;right:0px">
+                                            متصل
+                                        </div>
+                                        <div :style="[circleBorderStyle,{zIndex:2,position:'absolute',paddingLeft:'-22px',overflow:'auto',right:'12px'}]" class="text-center d-flex align-center">
+                                            <div  style="transform: scale(0.91);position: relative;width: 44px;flex-shrink: 0;margin-left: -16px;">
+                                                متصل...
+                                            </div>
+                                            <v-img :src="picPrefix+'/sb_icon_about.png?version=2'" max-width="10" height="10"></v-img>
+                                        </div>
+                                        <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 32px;right: 12px;"></v-img>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex pt-6 justify-center mt-3" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">إعدادات</div>
+                                    <div class="caption ml-13">Bluetooth</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">Bluetooth</div>
+                                    <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                </div>
+
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="[contentPhoneStyle,{position:'relative'}]" style="width: 193px;height: 48px">
+                                    <div class="caption blue--text ml-1">تجاهل هذا الجهاز</div>
+                                    <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 32px;left: 85px;"></v-img>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 body-2 font-weight-medium" :class="isIos?'mb-16':''">
+                        تحقق مما إذا كان هناك عدد كبير جدًا من أجهزة Bluetooth الإلكترونية في بيئتك (مما قد يتسبب في تداخل الإشارة) ، وانتقل إلى منطقة بها تداخل أقل للإشارة ، وحاول الاتصال.
+                        <br/><br/>
+                        يتم قطع اتصال بعض الهواتف المحمولة تلقائيًا بعد انطفاء الشاشة. قد يكون ذلك بسبب وضع توفير الطاقة الذي حدده نظام الهاتف المحمول لإيقاف تشغيل Bluetooth. يمكنك الخروج من وضع توفير الطاقة والمحاولة مرة أخرى.
+                        <br/><br/>
+                        إذا لم تحل أي من الطرق المذكورة أعلاه مشكلة الاتصال ، فمن المستحسن إعادة ضبط الجهاز (إعادة ضبط المصنع) ومحاولة إعادة الاتصال.
+                        <br/><br/>
+                    </div>
+                </v-container>
+            </v-container>
+        </v-main>
+    </v-app>
+</script>
+<script>
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify({
+            theme:{dark: false}
+        }),
+        data: function () {
+            const checkCircleStyle = {
+                width: '5px',
+                height: '5px',
+                border: '1px solid #3DC3C9',
+                borderRadius: '50%'
+            }
+
+            const checkDividerStyle = {
+                width: '20px',
+                height: '1px',
+                background: '#3DC3C9',
+            }
+
+            const sheetStyle = {
+                borderRadius: '10px',
+            }
+
+            return {
+                index: 0,
+                sheetStyle,
+                checkDividerStyle,
+                checkCircleStyle
+            }
+        },
+        computed: {
+            selectedStyle:function(){
+                return {
+                    width: '109px',
+                    height: '120px',
+                    background: this.$vuetify.theme.dark?'#2A2A2A':'#FFFFFF',
+                    borderRadius: '10px'
+                };
+            },
+            notSelectedStyle:function(){
+                return {
+                    width: '109px',
+                    height: '120px',
+                    background: 'transparent',
+                    borderRadius: '10px',
+                };
+            },
+            circleBorderStyle:function(){
+                return {
+                    width: '44px',
+                    height: '44px',
+                    border: '2px solid #3DC3C9',
+                    borderRadius: '50%',
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'white'
+                }
+            },
+            contentPicStyle: function(){
+                return {
+                    borderRadius: '10px',
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'#F7F7F7'
+                }
+            },
+            contentPhoneStyle: function(){
+                return {
+                    borderRadius: '10px',
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'white'
+                }
+            },
+            picPrefix: function () {
+                return '../static/images/connect/'+(this.$vuetify.theme.dark?'dark':'light');
+            },
+            picBasePrefix: function () {
+                return '../static/images/connect';
+            },
+            bgColor: function () {
+                return {
+                    backgroundColor: this.$vuetify.theme.dark?'#121212':'#F7F7F7'
+                };
+            },
+            isIos() {
+                const u = navigator.userAgent;
+                const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                if (isiOS) {
+                    return true
+                }
+
+                return false
+            }
+        },
+        methods: {
+            onSelected(index) {
+                this.index = index
+            }
+        },
+        template: '#app-template'
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="../static/vuetify/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="../static/vuetify/css/vuetify.min.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/fontawesome.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/brands.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/solid.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>通知与消息</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="../static/vuetify/js/vue.js"></script>
+<script src="../static/vuetify/js/vuetify.js"></script>
+<script type="text/x-template" id="app-template">
+    <v-app>
+        <v-main>
+            <v-container class="my-6">
+                <v-container>
+                    <div class="body-1 font-weight-bold">系统蓝牙设置</div>
+                    <div class="mt-6 d-flex px-5 justify-center" :style="contentPicStyle">
+                        <v-img :src="picPrefix+'/hand_with_watch.png?version=2'" max-width="106" height="152" class="mt-10"></v-img>
+                        <v-img :src="picPrefix+'/hand_with_phone.png?version=2'" max-width="106" height="166" class="ml-6 mt-6"></v-img>
+                    </div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        在进行此设置之前，需保证App与手表是连接的状态<br/>
+                        1、打开手机系统“设置→蓝牙”中蓝牙开关（如下图）<br />
+2、查看设备蓝牙名称后，显示“已连接”，表示连接成功<br />
+3、显示为“未连接”时，点击“未连接”位置，可完成手机系统蓝牙与设备蓝牙连接
+                    </div>
+                    <div class="d-flex pt-6 justify-center" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">设置</div>
+                                    <div class="caption ml-13">蓝牙</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">蓝牙</div>
+                                    <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                </div>
+
+                                <div class="d-flex mt-3 px-3 justify-end align-center" :style="contentPhoneStyle" style="width: 193px;height: 48px">
+                                    <div class="caption font-weight-light mt-n5" style="position: relative;width: 193px;height: 44px">
+                                        <div  style="transform: scale(0.91);position: absolute;z-index: 0;height: 44px;top: 22px;right:0px">
+                                            已连接
+                                        </div>
+                                        <div :style="[circleBorderStyle,{zIndex:2,position:'absolute',paddingLeft:'-22px',overflow:'auto',right:'12px'}]" class="text-center d-flex align-center">
+                                            <div  style="transform: scale(0.91);position: relative;width: 44px;flex-shrink: 0;margin-left: -16px;">
+                                                已连接...
+                                            </div>
+                                            <v-img :src="picPrefix+'/sb_icon_about.png?version=2'" max-width="10" height="10"></v-img>
+                                        </div>
+                                        <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 32px;right: 12px;"></v-img>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex px-5 justify-space-between align-center mt-10" :style="contentPicStyle">
+                        <div class="my-5 body-2 font-weight-medium">
+                            ”设备连接“的详细使用指引
+                        </div>
+                        <v-icon :size="11" color="grey">fa-solid fa-chevron-right</v-icon>
+                    </div>
+                    <div class="body-1 font-weight-bold mt-9">App内的设置</div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        设备会接收来自”Fitnus“已开启开关的应用程序的消息通知<br/><br/>
+
+                        在“设备→消息通知”中，打开“同步手机通知”的开关，并在其下方的列表中为接受通知的应用设置“允许”或开启
+                    </div>
+                    <div class="body-1 font-weight-bold mt-9">设备蓝牙异常</div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        部分设备蓝牙仅支持连接单个手机，请检查手表是否连接过其他手机，导致无法与新的手机连接<br/><br/>
+                        打开手机系统“设置→蓝牙”，选择你连接的设备的蓝牙名称，点击旁边的“i”图标，进入蓝牙详情页，选择“忽略此设备”，之后进行设备与需要绑定的手机的连接
+                    </div>
+                    <div class="d-flex pt-6 justify-center" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/back.png'" max-width="6" height="12"></v-img>
+                                    <div class="caption ml-15">通知与消息</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">同步手机通知</div>
+                                    <v-img :src="picPrefix+'/sb_icon_btn_off.png?version=2'" max-width="28" height="16"></v-img>
+                                </div>
+
+                                <div class="mt-1 py-2" :style="[contentPhoneStyle,{position:'relative'}]">
+                                    <div class="d-flex px-3 pb-1 align-center">
+                                        <v-img :src="picPrefix+'/sb_icon_SMS.png?version=2'" max-width="16" height="16"></v-img>
+                                        <div class="caption font-weight-black" style="transform: scale(0.71)">短信</div>
+                                    </div>
+                                    <v-divider></v-divider>
+                                    <div class="d-flex px-3 pt-1 align-center">
+                                        <v-img :src="picPrefix+'/sb_icon_calendar.png?version=2'" max-width="16" height="16"></v-img>
+                                        <div class="caption font-weight-black" style="transform: scale(0.71)">日历</div>
+                                    </div>
+                                    <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;bottom: -10px;right: 12px;"></v-img>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="body-1 font-weight-bold mt-9">系统通知设置</div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        消息通知功能是由系统直接下发至你的设备，需要开启手机系统【共享系统通知】<br/><br/>
+
+                        绑定设备成功，在弹出的系统通知中选择“允许”
+                    </div>
+                    <div class="d-flex pt-6 justify-center" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_icon_Pop-ups.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;width: 250px" class="pt-10">
+                                <div style="font-size: 12px;transform: scale(0.80)" class="font-weight-bold text-center px-8">
+                                    允许“Fitnus”显示“iPhone”通知吗?
+                                </div>
+                                <div style="font-size: 12px;margin-top: -10px" class="text-center font-weight-light px-4">
+                                    <div style="transform: scale(0.61)">
+                                        连接此配件时，您收到的所有通知将显示在其显示屏上
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-space-around font-weight-light mt-3" style="font-size: 12px;color:#007AFF;position:absolute;width: 200px;z-index: 10;bottom: 20px">
+                                <div style="transform: scale(0.80);">不允许</div>
+                                <div style="transform: scale(0.80);">允许</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        或前往手机系统“设置→蓝牙”，选择你连接的设备的蓝牙名称，点击旁边的“i”图标，进入蓝牙详情页，打开共享系统通知
+                    </div>
+                    <div class="d-flex pt-6 justify-center" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">设置</div>
+                                    <div class="caption ml-13">蓝牙</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">蓝牙</div>
+                                    <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                </div>
+                                <div class="caption font-weight-light mt-3" style="transform: scale(0.91);">
+                                    我的设备
+                                </div>
+                                <div class="d-flex px-3 justify-end align-center" :style="contentPhoneStyle" style="width: 193px;height: 48px">
+                                    <div class="caption font-weight-light mt-n5" style="position: relative;width: 44px;height: 44px">
+                                        <div :style="[circleBorderStyle,{zIndex:2,position:'absolute',paddingLeft:'-22px',overflow:'auto'}]" class="text-center d-flex align-center">
+                                            <div  style="transform: scale(0.91);position: relative;width: 44px;flex-shrink: 0;margin-left: -16px;">
+                                                已连接...
+                                            </div>
+                                            <v-img :src="picPrefix+'/sb_icon_about.png?version=2'" max-width="10" height="10"></v-img>
+                                        </div>
+                                        <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 32px;left: 12px;"></v-img>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex pt-6 justify-center mt-3" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">设置</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">共享系统通知</div>
+                                    <div :style="[circleBorderStyle]" class="text-center d-flex align-center justify-center">
+                                        <div style="position: relative">
+                                            <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                            <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 20px;left: 22px;"></v-img>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body-1 font-weight-bold mt-9">注意事项</div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        设备与App连接需要保持在良好的蓝牙连接范围，建议保持在1米范围内（距离越近信号越好），为了不影响蓝牙连接效果，设备与手机连接要避免有墙体、门窗等隔离物<br/><br/>
+                        接收消息通知的应用程序，需要保持登录状态且已打开通知开关
+                    </div>
+                    <div class="body-1 font-weight-bold mt-9">隐私说明</div>
+                    <div class="mt-4 body-2 font-weight-medium" :class="isIos?'mb-16':''">
+                        你在设备中接收的消息通知，是由系统直接下发至你的设备，接收过程设备与App不会识别你的消息内容或用于其他用途。
+                    </div>
+                </v-container>
+            </v-container>
+        </v-main>
+    </v-app>
+</script>
+<script>
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify({
+            theme:{dark: false}
+        }),
+        data: function () {
+            const checkCircleStyle = {
+                width: '5px',
+                height: '5px',
+                border: '1px solid #3DC3C9',
+                borderRadius: '50%'
+            }
+
+            const checkDividerStyle = {
+                width: '20px',
+                height: '1px',
+                background: '#3DC3C9',
+            }
+
+            const sheetStyle = {
+                borderRadius: '10px',
+            }
+
+            return {
+                index: 0,
+                sheetStyle,
+                checkDividerStyle,
+                checkCircleStyle
+            }
+        },
+        computed: {
+            selectedStyle:function(){
+                return {
+                    width: '109px',
+                    height: '120px',
+                    background: this.$vuetify.theme.dark?'#2A2A2A':'#FFFFFF',
+                    borderRadius: '10px'
+                };
+            },
+            notSelectedStyle:function(){
+                return {
+                    width: '109px',
+                    height: '120px',
+                    background: 'transparent',
+                    borderRadius: '10px',
+                };
+            },
+            circleBorderStyle:function(){
+                return {
+                    width: '44px',
+                    height: '44px',
+                    border: '2px solid #3DC3C9',
+                    borderRadius: '50%',
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'white'
+                }
+            },
+            contentPicStyle: function(){
+                return {
+                    borderRadius: '10px',
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'#F7F7F7'
+                }
+            },
+            contentPhoneStyle: function(){
+                return {
+                    borderRadius: '10px',
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'white'
+                }
+            },
+            picPrefix: function () {
+                return '../static/images/message/'+(this.$vuetify.theme.dark?'dark':'light');
+            },
+            picBasePrefix: function () {
+                return '../static/images/message';
+            },
+            bgColor: function () {
+                return {
+                    backgroundColor: this.$vuetify.theme.dark?'#121212':'#F7F7F7'
+                };
+            },
+            isIos() {
+                var u = navigator.userAgent;
+                var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                return isiOS;
+
+
+            }
+        },
+        methods: {
+            onSelected(index) {
+                this.index = index
+            }
+        },
+        template: '#app-template'
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="../static/vuetify/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="../static/vuetify/css/vuetify.min.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/fontawesome.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/brands.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/solid.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>設備連接</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="../static/vuetify/js/vue.js"></script>
+<script src="../static/vuetify/js/vuetify.js"></script>
+<script type="text/x-template" id="app-template">
+    <v-app>
+        <v-main>
+            <v-container class="my-6">
+                <v-container>
+                    <div class="body-1 font-weight-bold">系統藍牙設置</div>
+                    <div class="mt-6 d-flex px-5 justify-center" :style="contentPicStyle">
+                        <v-img :src="picPrefix+'/hand_with_watch.png?version=2'" max-width="106" height="152" class="mt-10"></v-img>
+                        <v-img :src="picPrefix+'/hand_with_phone.png?version=2'" max-width="106" height="166" class="ml-6 mt-6"></v-img>
+                    </div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        在進行此設置之前，需保證App與手錶是連接的狀態<br/>
+                        1、打開手機系統“設置→藍牙”中藍牙開關（如下圖）<br />
+2、查看設備藍牙名稱後，顯示“已連接”，表示連接成功<br />
+3、顯示為“未連接”時，點擊“未連接”位置，可完成手機系統藍牙與設備藍牙連接
+                    </div>
+                    <div class="d-flex pt-6 justify-center" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">設置</div>
+                                    <div class="caption ml-13">藍牙</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">藍牙</div>
+                                    <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                </div>
+
+                                <div class="d-flex mt-3 px-3 justify-end align-center" :style="contentPhoneStyle" style="width: 193px;height: 48px">
+                                    <div class="caption font-weight-light mt-n5" style="position: relative;width: 193px;height: 44px">
+                                        <div  style="transform: scale(0.91);position: absolute;z-index: 0;height: 44px;top: 22px;right:0px">
+                                            已連接
+                                        </div>
+                                        <div :style="[circleBorderStyle,{zIndex:2,position:'absolute',paddingLeft:'-22px',overflow:'auto',right:'12px'}]" class="text-center d-flex align-center">
+                                            <div  style="transform: scale(0.91);position: relative;width: 44px;flex-shrink: 0;margin-left: -16px;">
+                                                已連接...
+                                            </div>
+                                            <v-img :src="picPrefix+'/sb_icon_about.png?version=2'" max-width="10" height="10"></v-img>
+                                        </div>
+                                        <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 32px;right: 12px;"></v-img>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        打開手機系統中，Fitnus的藍牙開關（如下圖）
+                    </div>
+                    <div class="d-flex pt-6 justify-center" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">設置</div>
+                                    <div class="caption ml-10">Fitnus</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">藍牙</div>
+                                    <div :style="[circleBorderStyle]" class="text-center d-flex align-center justify-center">
+                                        <div style="position: relative">
+                                            <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                            <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 20px;left: 22px;"></v-img>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body-1 font-weight-bold mt-9">注意事項</div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        設備與App連接需要保持在良好的藍牙連接範圍，建議保持在1米範圍內（距離越近信號越好），為了不影響藍牙連接效果，設備與手機連接要避免有牆體、門窗等隔離物
+                    </div>
+                    <div class="body-1 font-weight-bold mt-9">設備藍牙異常</div>
+                    <div class="my-4 body-2 font-weight-medium">
+                        部分設備藍牙僅支持連接單個手機，請檢查手錶是否連接過其他手機，導致無法與新的手機連接
+                        <br/><br/>
+                        打開手機系統“設置→藍牙”，選擇你連接的設備的藍牙名稱，點擊旁邊的“i”圖標，進入藍牙詳情頁，選擇“忽略此設備”，之後進行設備與需要綁定的手機的連接
+                    </div>
+                    <div class="d-flex pt-6 justify-center" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">設置</div>
+                                    <div class="caption ml-13">藍牙</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">藍牙</div>
+                                    <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                </div>
+
+                                <div class="d-flex mt-3 px-3 justify-end align-center" :style="contentPhoneStyle" style="width: 193px;height: 48px">
+                                    <div class="caption font-weight-light mt-n5" style="position: relative;width: 193px;height: 44px">
+                                        <div  style="transform: scale(0.91);position: absolute;z-index: 0;height: 44px;top: 22px;right:0px">
+                                            已連接
+                                        </div>
+                                        <div :style="[circleBorderStyle,{zIndex:2,position:'absolute',paddingLeft:'-22px',overflow:'auto',right:'12px'}]" class="text-center d-flex align-center">
+                                            <div  style="transform: scale(0.91);position: relative;width: 44px;flex-shrink: 0;margin-left: -16px;">
+                                                已連接...
+                                            </div>
+                                            <v-img :src="picPrefix+'/sb_icon_about.png?version=2'" max-width="10" height="10"></v-img>
+                                        </div>
+                                        <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 32px;right: 12px;"></v-img>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex pt-6 justify-center mt-3" :style="contentPicStyle">
+                        <div style="position:relative;height: 166px;" class="justify-center d-flex mt-4">
+                            <v-img :src="picPrefix+'/sb_pic_iphone.png?version=2'" max-width="236" height="166"></v-img>
+                            <div style="position:absolute;z-index: 10;top:15px;width: 236px" class="px-6 pt-3">
+                                <div style="font-size: 12px;" class="d-flex align-center">
+                                    <v-img :src="picPrefix+'/sb_icon_xyb.png?version=2'" max-width="6" height="12"></v-img>
+                                    <div class="caption blue--text ml-1">設置</div>
+                                    <div class="caption ml-13">藍牙</div>
+                                </div>
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="contentPhoneStyle" style="width: 193px;height: 28px">
+                                    <div class="caption font-weight-black" style="transform: scale(0.71)">藍牙</div>
+                                    <v-img :src="picPrefix+'/sb_icon_btn_on.png?version=2'" max-width="28" height="16"></v-img>
+                                </div>
+
+                                <div class="d-flex mt-3 px-3 justify-space-between align-center" :style="[contentPhoneStyle,{position:'relative'}]" style="width: 193px;height: 48px">
+                                    <div class="caption blue--text ml-1">忽略此設備</div>
+                                    <v-img :src="picPrefix+'/hand.png?version=2'" max-width="26" height="32" style="position: absolute;z-index: 3;top: 32px;left: 85px;"></v-img>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 body-2 font-weight-medium" :class="isIos?'mb-16':''">
+                        檢查你所在的環境是否藍牙電子設備過多（可能造成信號干擾），可移步到信號干擾較少的區域嘗試連接
+                        <br/><br/>
+                        部分手機息屏之後藍牙自動斷開，可能因為手機系統設置了省電模式關閉藍牙，可退出省電模式後重試
+                        <br/><br/>
+                        如以上方法均無法解決連接問題，建議在設備中進行重置（恢復出廠設置），並嘗試重新連接
+                        <br/><br/>
+                    </div>
+                </v-container>
+            </v-container>
+        </v-main>
+    </v-app>
+</script>
+<script>
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify({
+            theme:{dark: false}
+        }),
+        data: function () {
+            const checkCircleStyle = {
+                width: '5px',
+                height: '5px',
+                border: '1px solid #3DC3C9',
+                borderRadius: '50%'
+            }
+
+            const checkDividerStyle = {
+                width: '20px',
+                height: '1px',
+                background: '#3DC3C9',
+            }
+
+            const sheetStyle = {
+                borderRadius: '10px',
+            }
+
+            return {
+                index: 0,
+                sheetStyle,
+                checkDividerStyle,
+                checkCircleStyle
+            }
+        },
+        computed: {
+            selectedStyle:function(){
+                return {
+                    width: '109px',
+                    height: '120px',
+                    background: this.$vuetify.theme.dark?'#2A2A2A':'#FFFFFF',
+                    borderRadius: '10px'
+                };
+            },
+            notSelectedStyle:function(){
+                return {
+                    width: '109px',
+                    height: '120px',
+                    background: 'transparent',
+                    borderRadius: '10px',
+                };
+            },
+            circleBorderStyle:function(){
+                return {
+                    width: '44px',
+                    height: '44px',
+                    border: '2px solid #3DC3C9',
+                    borderRadius: '50%',
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'white'
+                }
+            },
+            contentPicStyle: function(){
+                return {
+                    borderRadius: '10px',
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'#F7F7F7'
+                }
+            },
+            contentPhoneStyle: function(){
+                return {
+                    borderRadius: '10px',
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'white'
+                }
+            },
+            picPrefix: function () {
+                return '../static/images/connect/'+(this.$vuetify.theme.dark?'dark':'light');
+            },
+            picBasePrefix: function () {
+                return '../static/images/connect';
+            },
+            bgColor: function () {
+                return {
+                    backgroundColor: this.$vuetify.theme.dark?'#121212':'#F7F7F7'
+                };
+            },
+            isIos() {
+                const u = navigator.userAgent;
+                const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                if (isiOS) {
+                    return true
+                }
+
+                return false
+            }
+        },
+        methods: {
+            onSelected(index) {
+                this.index = index
+            }
+        },
+        template: '#app-template'
+    })
+</script>
+</body>
+</html>

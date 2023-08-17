@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="../static/vuetify/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="../static/vuetify/css/vuetify.min.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/fontawesome.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/brands.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/solid.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>綁定與同步</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="../static/vuetify/js/vue.js"></script>
+<script src="../static/vuetify/js/vuetify.js"></script>
+<script type="text/x-template" id="app-template">
+    <v-app>
+        <v-main :style="bgColor">
+            <v-container class="mt-3">
+                <v-row justify="space-around">
+                    <v-sheet :style="index == 0?selectedStyle:notSelectedStyle"
+                             class="justify-center d-flex align-center" @click="onSelected(0)">
+                        <v-img :src="picPrefix + (index == 0?'/sb_icon_square_sel.png?version=2':'/sb_icon_square.png?version=2')"
+                               height="89" max-width="50"></v-img>
+                    </v-sheet>
+                    <v-sheet :style="index == 1?selectedStyle:notSelectedStyle"
+                             class="justify-center d-flex d-flex align-center" @click="onSelected(1)">
+                        <v-img :src="picPrefix + (index == 1?'/sb_icon_round_sel.png?version=2':'/sb_icon_round.png?version=2')" height="89"
+                               max-width="56"></v-img>
+                    </v-sheet>
+                    <v-sheet :style="index == 2?selectedStyle:notSelectedStyle"
+                             class="justify-center d-flex d-flex align-center" @click="onSelected(2)">
+                        <v-img :src="picPrefix + (index == 2?'/sb_icon_wristband_sel.png?version=2':'/sb_icon_wristband.png?version=2')"
+                               height="89" max-width="40"></v-img>
+                    </v-sheet>
+                </v-row>
+                <div v-if="index == 0">
+                    <v-sheet class="mt-5" :style="sheetStyle">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    充電並激活手錶
+                                </div>
+                            </div>
+                            <div class="mt-6 d-flex px-3 py-3" :style="contentPicStyle">
+                                <div class="caption font-weight-medium d-flex align-center mt-6"
+                                     style="height: 11px;margin-right: -1px;">
+                                    <div style="width: 40px;word-break: break-all;">
+                                        充電線頭
+                                    </div>
+
+                                    <div :style="checkCircleStyle" class="ml-2"></div>
+                                    <div :style="checkDividerStyle"></div>
+                                </div>
+                                <v-img :src="picPrefix+'/square/sb_pic_charging_line.png?version=2'" max-width="42" height="76"
+                                       class="mt-4"></v-img>
+                                <v-img :src="picPrefix+'/square/sb_pic_charging_port.png?version=2'" max-width="88" height="102"
+                                       class="ml-4"></v-img>
+                                <div class="caption font-weight-medium d-flex align-center mt-6"
+                                     style="height: 11px;margin-left: -1px;">
+                                    <div :style="checkDividerStyle"></div>
+                                    <div :style="checkCircleStyle" class="mr-2"></div>
+                                    <div style="width: 40px;word-break: break-all;">
+                                        充電口
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                將磁吸充電線或充電座的充電觸點和手錶的充電觸點接觸結合在一起，即可長按激活手錶並開機
+                            </div>
+                            <div class="d-flex px-5 py-3 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_side_button.png?version=2'" max-width="104" height="100"
+                                       class="ml-4"></v-img>
+                                <div class="caption font-weight-medium d-flex align-center"
+                                     style="height: 11px;margin-left: -1px;">
+                                    <div :style="checkDividerStyle"></div>
+                                    <div :style="checkCircleStyle" class="mr-2"></div>
+                                    側鍵
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                長按手錶側鍵關機
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    綁定手錶
+                                </div>
+                            </div>
+                            <div class="mt-6 d-flex px-5 pt-5 justify-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_bangding.png?version=2'" max-width="110" height="108"
+                                       class="ml-4"></v-img>
+                                <div>
+                                    <div class="caption font-weight-medium d-flex align-center mt-6"
+                                         style="height: 11px;margin-left: -1px;">
+                                        <div :style="checkDividerStyle"></div>
+                                        <div :style="checkCircleStyle" class="mr-2"></div>
+                                        掃碼綁定
+                                    </div>
+                                    <div class="caption font-weight-medium d-flex align-center mt-8"
+                                         style="height: 11px;margin-left: -70px">
+                                        <svg width="60" height="11" viewBox="0 0 60 11" style="z-index: 10">
+                                            <text font-family="'PingFang SC','Microsoft Yahei'" font-size="6" x="0" y="11" fill="white">添加設備</text>
+                                        </svg>
+                                        <div :style="[checkDividerStyle,{width:'41px',zIndex:10}]" class="ml-2"></div>
+                                        <div :style="checkCircleStyle" class="mr-2"></div>
+                                        搜索綁定
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                點擊“添加設備”進行搜索，或點擊“掃碼”綁定手錶
+                            </div>
+                            <div class="d-flex px-5 pt-5 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_search.png?version=2'" max-width="102" height="108"></v-img>
+                                <div style="position:relative;height: 108px;" class="ml-8 justify-center d-flex">
+                                    <v-img :src="picPrefix+'/square/sb_pic_scan.png?version=2'" max-width="102" height="108"></v-img>
+                                    <div class="white--text" style="position:absolute;z-index: 10;bottom:-5px;font-size: 12px;transform: scale(0.61)">掃描二維碼</div>
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                搜索：在搜索界面選中你的手錶點擊進行綁定
+                            </div>
+                            <div class="my-4 body-2 font-weight-light" style="color: #FF4C4C">
+                                注：綁定過程中請保持手錶貼近手機（保持1米內）
+                            </div>
+                            <div class="d-flex px-5 justify-center align-center" :style="contentPicStyle">
+                                <div style="position:relative;height: 98px;" class="ml-8 justify-center d-flex mt-4 mb-4">
+                                    <v-img :src="picPrefix+'/square/sb_pic_watchpaired.png?version=2'" max-width="78" height="98"></v-img>
+                                </div>
+                                <v-icon size="30" class="ml-2">mdi-dots-horizontal</v-icon>
+                                <v-img :src="picPrefix+'/square/sb_pic_paired.png?version=2'" max-width="102" height="108" class="ml-3 mt-4"></v-img>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light d-flex">
+                                在手錶上點擊“<v-img :src="picPrefix+'/square/sb_btn_confirmation.png?version=2'" max-width="14" height="14"></v-img>”確認，完成綁定
+                            </div>
+                            <div class="my-4 body-2 font-weight-light" style="color: #FF4C4C">
+                                注：部分手錶自動連接不需要點擊確認
+                            </div>
+                            <div class="px-10 py-4">
+                                <v-btn dark depressed block color="#3DC3C9" href="starmax://add_device">添加設備</v-btn>
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle" @click="onQuestion">
+                        <v-container>
+                            <div class="my-5 body-2 font-weight-light">
+                                如遇到設備無法綁定，請查看下列幫助：
+                            </div>
+                            <div class="d-flex px-5 justify-space-between align-center" :style="contentPicStyle">
+                                <div class="my-5 body-2 font-weight-medium" >
+                                    設備無法綁定
+                                </div>
+                                <v-icon :size="11" color="grey">fa-solid fa-chevron-right</v-icon>
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    連接通話藍牙
+                                </div>
+                            </div>
+                            <div class="my-4 body-1 font-weight-medium">
+                                開啟通話藍牙：
+                            </div>
+                            <div class="d-flex px-5 py-4 justify-center align-center" :style="contentPicStyle">
+                                <div style="position:relative;height: 98px;">
+                                    <v-img :src="picPrefix+'/square/sb_pic_watchpaired2.png?version=2'" max-width="78" height="98"></v-img>
+                                    <svg width="78" height="11" viewBox="0 0 60 11" style="position:absolute;z-index: 10;top:24px;">
+                                        <text font-family="'PingFang SC','Microsoft Yahei'" font-size="6" x="2" y="9" font-weight="bold" :fill="$vuetify.theme.dark?'white':'black'">通話藍牙...</text>
+                                    </svg>
+                                </div>
+                                <div style="position:relative;height: 98px;" class="ml-9">
+                                    <v-img :src="picPrefix+'/square/sb_pic_watchpaired2.png?version=2'" max-width="78" height="98"></v-img>
+                                    <v-img :src="picPrefix+'/square/open.png?version=2'" max-width="41" height="41" style="position: absolute;z-index:20;top: 10px;right: -10px"></v-img>
+                                    <svg width="78" height="11" viewBox="0 0 60 11" style="position:absolute;z-index: 10;top:24px;">
+                                        <text font-family="'PingFang SC','Microsoft Yahei'" font-size="6" x="2" y="9" font-weight="bold" :fill="$vuetify.theme.dark?'white':'black'">通話藍牙...</text>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="my-4 body-1 font-weight-medium">
+                                連接通話藍牙
+                            </div>
+                            <div class="my-4 caption font-weight-light">
+                                保持手機系統藍牙為開啟狀態；<br />
+進入手機系統藍牙，找到設備藍牙名稱（GT**CALL-<br />
+****），點擊進行連接。<br />
+注意：通話藍牙必須在手機系統藍牙內進行連接。
+                            </div>
+                            <div class="d-flex px-5 pt-5 justify-center align-center" :style="contentPicStyle">
+                                <div style="position:relative;height: 108px;">
+                                    <v-img :src="picPrefix+'/square/sb_pic_device.png?version=2'" max-width="110" height="108"></v-img>
+                                    <div class="font-weight-black" style="position:absolute;z-index: 10;top:32px;left:10px;font-size: 12px;transform: scale(0.5)">藍牙</div>
+                                </div>
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle" :class="isIos?'mb-16':''">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    同步手錶數據
+                                </div>
+                            </div>
+                            <div class="d-flex px-5 pt-5 mt-6 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_bluetooth.png?version=2'" max-width="102" height="108"></v-img>
+                                <v-img :src="picPrefix+'/square/sb_pic_refresh.png?version=2'" max-width="102" height="108" class="ml-8"></v-img>
+                            </div>
+                            <div class="my-4 caption font-weight-light">
+                                綁定完成，並保持手錶與手機藍牙處於連接<br/>
+                                在首頁下拉，同步手錶數據到手機
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                </div>
+                <div v-if="index == 1">
+                    <v-sheet class="mt-5" :style="sheetStyle">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    充電並激活手錶
+                                </div>
+                            </div>
+                            <div class="mt-6 d-flex px-3 py-3" :style="contentPicStyle">
+                                <div class="caption font-weight-medium d-flex align-center mt-6"
+                                     style="height: 11px;margin-right: -1px;">
+                                    <div style="width: 40px;word-break: break-all;">
+                                        充電線頭
+                                    </div>
+                                    <div :style="checkCircleStyle" class="ml-2"></div>
+                                    <div :style="checkDividerStyle"></div>
+                                </div>
+                                <v-img :src="picPrefix+'/square/sb_pic_charging_line.png?version=2'" max-width="42" height="76"
+                                       class="mt-4"></v-img>
+                                <v-img :src="picPrefix+'/circle/sb_icon_round.png?version=2'" max-width="86" height="100"
+                                       class="ml-4"></v-img>
+                                <div class="caption font-weight-medium d-flex align-center"
+                                     style="height: 11px;margin-left: -1px;margin-top: 80px">
+                                    <div :style="checkDividerStyle"></div>
+                                    <div :style="checkCircleStyle" class="mr-2"></div>
+                                    <div style="width: 40px;word-break: break-all;">
+                                        充電口
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                將磁吸充電線或充電座的充電觸點和手錶的充電觸點接觸結合在一起，即可長按激活手錶並開機
+                            </div>
+                            <div class="d-flex px-5 py-3 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/circle/sb_icon_roundwatch.png?version=2'" max-width="104" height="100"
+                                       class="ml-4"></v-img>
+                                <div class="caption font-weight-medium d-flex align-center"
+                                     style="height: 11px;margin-left: -1px;">
+                                    <div :style="checkDividerStyle"></div>
+                                    <div :style="checkCircleStyle" class="mr-2"></div>
+                                    側鍵
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                長按手錶側鍵關機
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    綁定手錶
+                                </div>
+                            </div>
+                            <div class="mt-6 d-flex px-5 pt-5 justify-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_bangding.png?version=2'" max-width="110" height="108"
+                                       class="ml-4"></v-img>
+                                <div>
+                                    <div class="caption font-weight-medium d-flex align-center mt-6"
+                                         style="height: 11px;margin-left: -1px;">
+                                        <div :style="checkDividerStyle"></div>
+                                        <div :style="checkCircleStyle" class="mr-2"></div>
+                                        掃碼綁定
+                                    </div>
+                                    <div class="caption font-weight-medium d-flex align-center mt-8"
+                                         style="height: 11px;margin-left: -70px">
+                                        <svg width="60" height="11" viewBox="0 0 60 11" style="z-index: 10">
+                                            <text font-family="'PingFang SC','Microsoft Yahei'" font-size="6" x="0" y="11" fill="white">添加設備</text>
+                                        </svg>
+                                        <div :style="[checkDividerStyle,{width:'41px',zIndex:10}]" class="ml-2"></div>
+                                        <div :style="checkCircleStyle" class="mr-2"></div>
+                                        搜索綁定
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                點擊“添加設備”進行搜索，或點擊“掃碼”綁定手錶
+                            </div>
+                            <div class="d-flex px-5 pt-5 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_search.png?version=2'" max-width="102" height="108"></v-img>
+                                <div style="position:relative;height: 108px;" class="ml-8 justify-center d-flex">
+                                    <v-img :src="picPrefix+'/square/sb_pic_scan.png?version=2'" max-width="102" height="108"></v-img>
+                                    <div class="white--text" style="position:absolute;z-index: 10;bottom:-5px;font-size: 12px;transform: scale(0.61)">掃描二維碼</div>
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                搜索：在搜索界面選中你的手錶點擊進行綁定
+                            </div>
+                            <div class="my-4 body-2 font-weight-light" style="color: #FF4C4C">
+                                注：綁定過程中請保持手錶貼近手機（保持1米內）
+                            </div>
+                            <div class="d-flex px-5 justify-center align-center" :style="contentPicStyle">
+                                <div style="position:relative;height: 98px;" class="ml-8 justify-center d-flex mt-4 mb-4">
+                                    <v-img :src="picPrefix+'/circle/sb_pic_watchpaired.png?version=2'" max-width="78" height="98"></v-img>
+                                </div>
+                                <v-icon size="30" class="ml-2">mdi-dots-horizontal</v-icon>
+                                <v-img :src="picPrefix+'/circle/sb_pic_paired.png?version=2'" max-width="102" height="108" class="ml-3 mt-4"></v-img>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light d-flex">
+                                在手錶上點擊“<v-img :src="picPrefix+'/square/sb_btn_confirmation.png?version=2'" max-width="14" height="14"></v-img>”確認，完成綁定
+                            </div>
+                            <div class="my-4 body-2 font-weight-light" style="color: #FF4C4C">
+                                注：部分手錶自動連接不需要點擊確認
+                            </div>
+                            <div class="px-10 py-4">
+                                <v-btn dark depressed block color="#3DC3C9" href="starmax://add_device">添加設備</v-btn>
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle"  @click="onQuestion">
+                        <v-container>
+                            <div class="my-5 body-2 font-weight-light">
+                                如遇到設備無法綁定，請查看下列幫助：
+                            </div>
+                            <div class="d-flex px-5 justify-space-between align-center" :style="contentPicStyle">
+                                <div class="my-5 body-2 font-weight-medium" >
+                                    設備無法綁定
+                                </div>
+                                <v-icon :size="11" color="grey">fa-solid fa-chevron-right</v-icon>
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle" :class="isIos?'mb-16':''">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    同步手錶數據
+                                </div>
+                            </div>
+                            <div class="d-flex px-5 pt-5 mt-6 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_bluetooth.png?version=2'" max-width="102" height="108"></v-img>
+                                <v-img :src="picPrefix+'/square/sb_pic_refresh.png?version=2'" max-width="102" height="108" class="ml-8"></v-img>
+                            </div>
+                            <div class="my-4 caption font-weight-light">
+                                綁定完成，並保持手錶與手機藍牙處於連接<br/>
+                                在首頁下拉，同步手錶數據到手機
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                </div>
+                <div v-if="index == 2">
+                    <v-sheet class="mt-5" :style="sheetStyle">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    充電並激活手環
+                                </div>
+                            </div>
+                            <div class="mt-6 d-flex px-5 py-3 justify-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/wrist/sb_icon_wrist.png?version=2'" max-width="62" height="108"
+                                       class="ml-4"></v-img>
+                                <div class="caption font-weight-medium d-flex align-center"
+                                     style="height: 11px;margin-left: -1px;margin-top: 80px">
+                                    <div :style="checkDividerStyle"></div>
+                                    <div :style="checkCircleStyle" class="mr-2"></div>
+                                    USB充電端口
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                手環在第一次使用前必須通過充電激活。 (1）拉動錶帶，取下手環主體；(2）將主體的金屬充電端子插入 USB 口為手環充電（請使用規定的電壓（5V），注意不要接反）。
+部分手環是磁吸充電。
+                            </div>
+                            <div class="d-flex px-5 py-3 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/wrist/sb_icon_wrist1.png?version=2'" max-width="64" height="108"
+                                       class="ml-4"></v-img>
+                                <div class="caption font-weight-medium d-flex"
+                                     style="height: 11px;margin-left: -1px;margin-top: 67px">
+                                    <div :style="checkDividerStyle"></div>
+                                    <div :style="checkCircleStyle" class="mr-2"></div>
+                                    開機鍵
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                長按手環的開機鍵開機，不同型號區分觸屏或按鈕
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    綁定手環
+                                </div>
+                            </div>
+                            <div class="mt-6 d-flex px-5 pt-5 justify-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/wrist/sb_pic_bangding.png?version=2'" max-width="100" height="108"
+                                       class="ml-4"></v-img>
+                                <div>
+                                    <div class="caption font-weight-medium d-flex align-center"
+                                         style="height: 11px;margin-left: -60px;margin-top: 68px">
+                                        <svg width="60" height="11" viewBox="0 0 60 11" style="z-index: 10">
+                                            <text font-family="'PingFang SC','Microsoft Yahei'" font-size="6" x="0" y="11" fill="white">添加設備</text>
+                                        </svg>
+                                        <div :style="[checkDividerStyle,{width:'41px',zIndex:10}]" class="ml-2"></div>
+                                        <div :style="checkCircleStyle" class="mr-2"></div>
+                                        搜索綁定
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                點擊“添加設備”進行搜索，綁定手環
+                            </div>
+                            <div class="d-flex px-5 pt-5 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_search.png?version=2'" max-width="102" height="108"></v-img>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                搜索：在搜索界面選中你的手環點擊進行綁定
+                            </div>
+                            <div class="my-4 body-2 font-weight-light" style="color: #FF4C4C">
+                                注：綁定過程中請保持手環貼近手機（保持1米內）
+                            </div>
+                            <div class="d-flex px-5 justify-center align-center" :style="contentPicStyle">
+                                <div style="position:relative;height: 108px;" class="ml-8 justify-center d-flex mt-4 mb-4">
+                                    <v-img :src="picPrefix+'/wrist/sb_pic_watchpaired.png?version=2'" max-width="36" height="108"></v-img>
+                                </div>
+                                <v-icon size="30" class="ml-2">mdi-dots-horizontal</v-icon>
+                                <v-img :src="picPrefix+'/wrist/sb_pic_paired.png?version=2'" max-width="102" height="108" class="ml-3 mt-6"></v-img>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light d-flex">
+                                <p>在手環上點擊“<v-img :src="picPrefix+'/square/sb_btn_confirmation.png?version=2'" max-width="14" height="14" align="right"></v-img>”確認，完成綁定</p>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light" style="color: #FF4C4C">
+                                注：部分手環自動連接不需要點擊確認
+                            </div>
+                            <div class="px-10 py-4">
+                                <v-btn dark depressed block color="#3DC3C9" href="starmax://add_device">添加設備</v-btn>
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle"  @click="onQuestion">
+                        <v-container>
+                            <div class="my-5 body-2 font-weight-light">
+                                如遇到設備無法綁定，請查看下列幫助：
+                            </div>
+                            <div class="d-flex px-5 justify-space-between align-center" :style="contentPicStyle">
+                                <div class="my-5 body-2 font-weight-medium">
+                                    設備無法綁定
+                                </div>
+                                <v-icon :size="11" color="grey">fa-solid fa-chevron-right</v-icon>
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle" :class="isIos?'mb-16':''">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    同步手環數據
+                                </div>
+                            </div>
+                            <div class="d-flex px-5 pt-5 mt-6 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_bluetooth.png?version=2'" max-width="102" height="108"></v-img>
+                                <v-img :src="picPrefix+'/square/sb_pic_refresh.png?version=2'" max-width="102" height="108" class="ml-8"></v-img>
+                            </div>
+                            <div class="my-4 caption font-weight-light">
+                                綁定完成，並保持手環與手機藍牙處於連接<br/>
+                                在首頁下拉，同步手環數據到手機
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                </div>
+            </v-container>
+        </v-main>
+    </v-app>
+</script>
+<script>
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify({
+            theme:{dark: false}
+        }),
+        data: function () {
+            const checkCircleStyle = {
+                width: '5px',
+                height: '5px',
+                border: '1px solid #3DC3C9',
+                borderRadius: '50%'
+            }
+
+            const checkDividerStyle = {
+                width: '20px',
+                height: '1px',
+                background: '#3DC3C9',
+            }
+
+            const sheetStyle = {
+                borderRadius: '10px',
+            }
+
+            return {
+                index: 0,
+                sheetStyle,
+                checkDividerStyle,
+                checkCircleStyle
+            }
+        },
+        computed: {
+            selectedStyle:function(){
+              return {
+                  width: '109px',
+                  height: '120px',
+                  background: this.$vuetify.theme.dark?'#2A2A2A':'#FFFFFF',
+                  borderRadius: '10px'
+              };
+            },
+            notSelectedStyle:function(){
+                return {
+                    width: '109px',
+                    height: '120px',
+                    background: 'transparent',
+                    borderRadius: '10px',
+                };
+            },
+            contentPicStyle: function(){
+                return {
+                    borderRadius: '10px',
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'#F7F7F7'
+                }
+            },
+            picPrefix: function () {
+                return '../static/images/bind/'+(this.$vuetify.theme.dark?'dark':'light');
+            },
+            picBasePrefix: function () {
+                return '../static/images/bind';
+            },
+            bgColor: function () {
+                return {
+                    backgroundColor: this.$vuetify.theme.dark?'#121212':'#F7F7F7'
+                };
+            },
+            isIos() {
+                var u = navigator.userAgent;
+                var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                return isiOS;
+            }
+        },
+        methods: {
+            onSelected(index) {
+                this.index = index
+            },
+            onQuestion() {
+                window.location.href = "/client/questions/content/lang/zh-HK?dark="
+            }
+        },
+        template: '#app-template'
+    })
+</script>
+</body>
+</html>

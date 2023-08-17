@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="../static/vuetify/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="../static/vuetify/css/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>健身</title>
+</head>
+<body>
+<div id="app" :style="isAndroidOrIOS">
+    <v-app>
+        <v-main>
+            <v-carousel v-model="model" height="100%" :show-arrows="false" hide-delimiters>
+                <v-carousel-item>
+                    <div class="d-block pt-12 px-5 justify-center" :style="bgColor" style="height: 355px">
+                        <div class="d-flex justify-center">
+                            <v-img :src="picPrefix+'/background.png'" max-width="311"></v-img>
+                        </div>
+                        <div style="position:absolute;top: 40px;" class="justify-center">
+                            <v-img :src="picPrefix+'/fitness.png'" max-width="322"></v-img>
+                        </div>
+                    </div>
+                    <div class="px-10 title font-weight-black pt-9 ">
+                        健身
+                    </div>
+                    <div class="px-10 subtitle-1 font-weight-light pt-5" style="line-height: 23px;">
+                        活動、鍛煉和走動這三個主要指標是對日常健身記錄的直觀而快速的概覽。每項指標達到設定目標後，圓圈將會填滿。<br />
+活動：測量活動中的卡路里消耗。<br />
+鍛煉：測量你完成中高強度鍛煉的時長。<br />
+走動：測量你全天站立和行走的狀態。
+                    </div>
+                </v-carousel-item>
+                <v-carousel-item>
+                    <div class="d-block pt-12 px-5 justify-center" :style="bgColor" style="height: 355px">
+                        <div class="d-flex justify-center">
+                            <v-img :src="picPrefix+'/background.png'" max-width="311"></v-img>
+                        </div>
+                        <div style="position:absolute;top: 100px;" class="justify-center">
+                            <v-img :src="picPrefix+'/activity.png'" max-width="322"></v-img>
+                        </div>
+                    </div>
+                    <div class="px-10 title font-weight-black pt-9">
+                        活動
+                    </div>
+                    <div class="px-10 subtitle-1 font-weight-light pt-5" style="line-height: 23px;">
+                        可以通過輕鬆的日常活動、跑步、騎行，或健身房鍛煉消耗熱量，有助於提升身體健康狀態。
+                    </div>
+                </v-carousel-item>
+                <v-carousel-item>
+                    <div class="d-block pt-12 px-5 justify-center" :style="bgColor" style="height: 355px">
+                        <div class="d-flex justify-center">
+                            <v-img :src="picPrefix+'/background.png'" max-width="311"></v-img>
+                        </div>
+                        <div style="position:absolute;top: 100px;" class="justify-center">
+                            <v-img :src="picPrefix+'/exercise.png'" max-width="322"></v-img>
+                        </div>
+                    </div>
+                    <div class="px-10 title font-weight-black pt-9">
+                        鍛煉
+                    </div>
+                    <div class="px-10 subtitle-1 font-weight-light pt-5" style="line-height: 23px;">
+                        鍛煉是記錄中高強度活動的分鐘數。每天保持30~40分鐘中高強度鍛煉，有助於減少慢性病患病的風險。
+                    </div>
+                </v-carousel-item>
+                <v-carousel-item>
+                    <div class="d-block pt-12 px-5 justify-center" :style="bgColor" style="height: 355px">
+                        <div class="d-flex justify-center">
+                            <v-img :src="picPrefix+'/background.png'" max-width="311"></v-img>
+                        </div>
+                        <div style="position:absolute;top: 100px;">
+                            <v-img :src="picPrefix+'/walkaround.png?version=2'" max-width="322"></v-img>
+                        </div>
+                    </div>
+                    <div class="px-10 title font-weight-black pt-9">
+                        走動
+                    </div>
+                    <div class="px-10 subtitle-1 font-weight-light pt-5" style="line-height: 23px;">
+                        走動是設置一個每小時的活動目標，記錄目標達成的小時數之和。堅持每小時站立走動有助於減少久坐帶來的慢性病患病風險。
+                    </div>
+                </v-carousel-item>
+            </v-carousel>
+            <v-footer app color="transparent">
+                <v-row justify="center" class="pb-6" :class="isIos?'mb-16':''">
+                    <div v-for="index in 4">
+                        <div style="border-radius: 3px;width: 18px;height:6px;background: #3DC3C9" class="ml-1" v-if="index-1 == model"></div>
+                        <div style="border-radius: 3px;width: 6px;height:6px;background: #BDF0F2" class="ml-1" v-else></div>
+                    </div>
+                </v-row>
+            </v-footer>
+        </v-main>
+    </v-app>
+</div>
+
+<script src="../static/vuetify/js/vue.js"></script>
+<script src="../static/vuetify/js/vuetify.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify({
+            theme:{dark: false}
+        }),
+        data:function(){
+            return {
+                model:0
+            }
+        },
+        computed: {
+            picPrefix: function () {
+                return '../static/images/fitness/'+(this.$vuetify.theme.dark?'dark':'light');
+            },
+            picBasePrefix: function () {
+                return '../static/images/fitness';
+            },
+            bgColor: function () {
+                return {
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'#F7F7F7'
+                };
+            },
+            isIos() {
+                var u = navigator.userAgent;
+                var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                if (isiOS) {
+                    return true
+                }
+
+                return false
+            }
+        }
+    })
+</script>
+</body>
+</html>

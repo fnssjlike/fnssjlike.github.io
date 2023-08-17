@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="../static/vuetify/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="../static/vuetify/css/vuetify.min.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/fontawesome.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/brands.css" rel="stylesheet">
+    <link href="../static/fontawesome-free-6.1.2-web/css/solid.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>จับคู่และซิงค์</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="../static/vuetify/js/vue.js"></script>
+<script src="../static/vuetify/js/vuetify.js"></script>
+<script type="text/x-template" id="app-template">
+    <v-app>
+        <v-main :style="bgColor">
+            <v-container class="mt-3">
+                <v-row justify="space-around">
+                    <v-sheet :style="index == 0?selectedStyle:notSelectedStyle"
+                             class="justify-center d-flex align-center" @click="onSelected(0)">
+                        <v-img :src="picPrefix + (index == 0?'/sb_icon_square_sel.png?version=2':'/sb_icon_square.png?version=2')"
+                               height="89" max-width="50"></v-img>
+                    </v-sheet>
+                    <v-sheet :style="index == 1?selectedStyle:notSelectedStyle"
+                             class="justify-center d-flex d-flex align-center" @click="onSelected(1)">
+                        <v-img :src="picPrefix + (index == 1?'/sb_icon_round_sel.png?version=2':'/sb_icon_round.png?version=2')" height="89"
+                               max-width="56"></v-img>
+                    </v-sheet>
+                    <v-sheet :style="index == 2?selectedStyle:notSelectedStyle"
+                             class="justify-center d-flex d-flex align-center" @click="onSelected(2)">
+                        <v-img :src="picPrefix + (index == 2?'/sb_icon_wristband_sel.png?version=2':'/sb_icon_wristband.png?version=2')"
+                               height="89" max-width="40"></v-img>
+                    </v-sheet>
+                </v-row>
+                <div v-if="index == 0">
+                    <v-sheet class="mt-5" :style="sheetStyle">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    ชาร์จและเปิดใช้งานนาฬิกา
+                                </div>
+                            </div>
+                            <div class="mt-6 d-flex px-3 py-3" :style="contentPicStyle">
+                                <div class="caption font-weight-medium d-flex align-center mt-6"
+                                     style="height: 11px;margin-right: -1px;">
+                                    <div style="width: 40px;word-break: break-all;">
+                                        สายชาร์จ
+                                    </div>
+
+                                    <div :style="checkCircleStyle" class="ml-2"></div>
+                                    <div :style="checkDividerStyle"></div>
+                                </div>
+                                <v-img :src="picPrefix+'/square/sb_pic_charging_line.png?version=2'" max-width="42" height="76"
+                                       class="mt-4"></v-img>
+                                <v-img :src="picPrefix+'/square/sb_pic_charging_port.png?version=2'" max-width="88" height="102"
+                                       class="ml-4"></v-img>
+                                <div class="caption font-weight-medium d-flex align-center mt-6"
+                                     style="height: 11px;margin-left: -1px;">
+                                    <div :style="checkDividerStyle"></div>
+                                    <div :style="checkCircleStyle" class="mr-2"></div>
+                                    <div style="width: 40px;word-break: break-all;">
+                                        พอร์ตชาร์จ
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                รวมหน้าสัมผัสการชาร์จของสายชาร์จแม่เหล็กหรือแท่นชาร์จเข้ากับหน้าสัมผัสการชาร์จของนาฬิกา คุณสามารถกดค้างเพื่อเปิดใช้งานนาฬิกาและเปิดเครื่องได้
+                            </div>
+                            <div class="d-flex px-5 py-3 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_side_button.png?version=2'" max-width="104" height="100"
+                                       class="ml-4"></v-img>
+                                <div class="caption font-weight-medium d-flex align-center"
+                                     style="height: 11px;margin-left: -1px;">
+                                    <div :style="checkDividerStyle"></div>
+                                    <div :style="checkCircleStyle" class="mr-2"></div>
+                                    ปุ่มด้านข้าง
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                กดปุ่มด้านข้างของนาฬิกาค้างไว้เพื่อปิดเครื่อง
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    สมาร์ทวอทช์ผูกพัน
+                                </div>
+                            </div>
+                            <div class="mt-6 d-flex px-5 pt-5 justify-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_bangding.png?version=2'" max-width="110" height="108"
+                                       class="ml-4"></v-img>
+                                <div>
+                                    <div class="caption font-weight-medium d-flex align-center mt-6"
+                                         style="height: 11px;margin-left: -1px;">
+                                        <div :style="checkDividerStyle"></div>
+                                        <div :style="checkCircleStyle" class="mr-2"></div>
+                                        สแกนการจับคู่รหัส
+                                    </div>
+                                    <div class="caption font-weight-medium d-flex align-center mt-8"
+                                         style="height: 11px;margin-left: -70px">
+                                        <svg width="60" height="11" viewBox="0 0 60 11" style="z-index: 10">
+                                            <text font-family="'PingFang SC','Microsoft Yahei'" font-size="6" x="0" y="11" fill="white">เพิ่มอุปกรณ์...</text>
+                                        </svg>
+                                        <div :style="[checkDividerStyle,{width:'41px',zIndex:10}]" class="ml-2"></div>
+                                        <div :style="checkCircleStyle" class="mr-2"></div>
+                                        จับคู่ค้นหา
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                คลิก &quot;เพิ่มอุปกรณ์&quot; เพื่อค้นหา หรือคลิก &quot;สแกนรหัส&quot; เพื่อจับคู่นาฬิกา
+                            </div>
+                            <div class="d-flex px-5 pt-5 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_search.png?version=2'" max-width="102" height="108"></v-img>
+                                <div style="position:relative;height: 108px;" class="ml-8 justify-center d-flex">
+                                    <v-img :src="picPrefix+'/square/sb_pic_scan.png?version=2'" max-width="102" height="108"></v-img>
+                                    <div class="white--text" style="position:absolute;z-index: 10;bottom:-5px;font-size: 12px;transform: scale(0.61)">สแกนคิวอาร์โค้ด</div>
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                ค้นหา: เลือกนาฬิกาของคุณในอินเทอร์เฟซการค้นหาแล้วคลิกเพื่อจับคู่
+                            </div>
+                            <div class="my-4 body-2 font-weight-light" style="color: #FF4C4C">
+                                หมายเหตุ: ในระหว่างขั้นตอนการผูก โปรดวางนาฬิกาไว้ใกล้กับโทรศัพท์ (ภายใน 1 เมตร)
+                            </div>
+                            <div class="d-flex px-5 justify-center align-center" :style="contentPicStyle">
+                                <div style="position:relative;height: 98px;" class="ml-8 justify-center d-flex mt-4 mb-4">
+                                    <v-img :src="picPrefix+'/square/sb_pic_watchpaired.png?version=2'" max-width="78" height="98"></v-img>
+                                </div>
+                                <v-icon size="30" class="ml-2">mdi-dots-horizontal</v-icon>
+                                <v-img :src="picPrefix+'/square/sb_pic_paired.png?version=2'" max-width="102" height="108" class="ml-3 mt-4"></v-img>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light d-flex">
+                                คลิก "<v-img :src="picPrefix+'/square/sb_btn_confirmation.png?version=2'" max-width="14" height="14"></v-img>" บนนาฬิกาเพื่อยืนยันและทำการผูกให้เสร็จสิ้น
+                            </div>
+                            <div class="my-4 body-2 font-weight-light" style="color: #FF4C4C">
+                                หมายเหตุ: นาฬิกาบางเรือนจะเชื่อมต่อโดยอัตโนมัติโดยไม่ต้องคลิกเพื่อยืนยัน
+                            </div>
+                            <div class="px-10 py-4">
+                                <v-btn dark depressed block color="#3DC3C9" href="starmax://add_device">เพิ่มอุปกรณ์</v-btn>
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle" @click="onQuestion">
+                        <v-container>
+                            <div class="my-5 body-2 font-weight-light">
+                                หากไม่สามารถผูกอุปกรณ์ได้ โปรดตรวจสอบความช่วยเหลือต่อไปนี้:
+                            </div>
+                            <div class="d-flex px-5 justify-space-between align-center" :style="contentPicStyle">
+                                <div class="my-5 body-2 font-weight-medium" >
+                                    ไม่สามารถจับคู่อุปกรณ์ได้
+                                </div>
+                                <v-icon :size="11" color="grey">fa-solid fa-chevron-right</v-icon>
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    เชื่อมต่อการโทร บลูทูธ
+                                </div>
+                            </div>
+                            <div class="my-4 body-1 font-weight-medium">
+                                เปิดบลูทูธโทร:
+                            </div>
+                            <div class="d-flex px-5 py-4 justify-center align-center" :style="contentPicStyle">
+                                <div style="position:relative;height: 98px;">
+                                    <v-img :src="picPrefix+'/square/sb_pic_watchpaired2.png?version=2'" max-width="78" height="98"></v-img>
+                                    <svg width="78" height="11" viewBox="0 0 60 11" style="position:absolute;z-index: 10;top:24px;">
+                                        <text font-family="'PingFang SC','Microsoft Yahei'" font-size="6" x="2" y="9" font-weight="bold" :fill="$vuetify.theme.dark?'white':'black'">โทรบลูทู...</text>
+                                    </svg>
+                                </div>
+                                <div style="position:relative;height: 98px;" class="ml-9">
+                                    <v-img :src="picPrefix+'/square/sb_pic_watchpaired2.png?version=2'" max-width="78" height="98"></v-img>
+                                    <v-img :src="picPrefix+'/square/open.png?version=2'" max-width="41" height="41" style="position: absolute;z-index:20;top: 10px;right: -10px"></v-img>
+                                    <svg width="78" height="11" viewBox="0 0 60 11" style="position:absolute;z-index: 10;top:24px;">
+                                        <text font-family="'PingFang SC','Microsoft Yahei'" font-size="6" x="2" y="9" font-weight="bold" :fill="$vuetify.theme.dark?'white':'black'">โทรบลูทู...</text>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="my-4 body-1 font-weight-medium">
+                                เชื่อมต่อการโทร บลูทูธ
+                            </div>
+                            <div class="my-4 caption font-weight-light">
+                                เปิดบลูทูธระบบโทรศัพท์มือถือไว้<br />
+เข้าสู่ระบบโทรศัพท์มือถือ Bluetooth ค้นหาชื่ออุปกรณ์ Bluetooth (GT**CALL-****) แล้วคลิกเพื่อเชื่อมต่อ<br />
+หมายเหตุ: ต้องเชื่อมต่อบลูทู ธ การโทรในระบบโทรศัพท์มือถือบลูทู ธ
+                            </div>
+                            <div class="d-flex px-5 pt-5 justify-center align-center" :style="contentPicStyle">
+                                <div style="position:relative;height: 108px;">
+                                    <v-img :src="picPrefix+'/square/sb_pic_device.png?version=2'" max-width="110" height="108"></v-img>
+                                    <div class="font-weight-black" style="position:absolute;z-index: 10;top:32px;left:10px;font-size: 12px;transform: scale(0.5)">Bluetooth</div>
+                                </div>
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle" :class="isIos?'mb-16':''">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    ซิงค์ข้อมูลนาฬิกาอัจฉริยะ
+                                </div>
+                            </div>
+                            <div class="d-flex px-5 pt-5 mt-6 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_bluetooth.png?version=2'" max-width="102" height="108"></v-img>
+                                <v-img :src="picPrefix+'/square/sb_pic_refresh.png?version=2'" max-width="102" height="108" class="ml-8"></v-img>
+                            </div>
+                            <div class="my-4 caption font-weight-light">
+                                การจับคู่เสร็จสิ้น และให้นาฬิกากับบลูทูธของโทรศัพท์มือถือเชื่อมต่ออยู่<br/>
+                                ดึงหน้าแรกลงมาและซิงโครไนซ์ข้อมูลนาฬิกากับโทรศัพท์
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                </div>
+                <div v-if="index == 1">
+                    <v-sheet class="mt-5" :style="sheetStyle">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    ชาร์จและเปิดใช้งานนาฬิกา
+                                </div>
+                            </div>
+                            <div class="mt-6 d-flex px-3 py-3" :style="contentPicStyle">
+                                <div class="caption font-weight-medium d-flex align-center mt-6"
+                                     style="height: 11px;margin-right: -1px;">
+                                    <div style="width: 40px;word-break: break-all;">
+                                        สายชาร์จ
+                                    </div>
+                                    <div :style="checkCircleStyle" class="ml-2"></div>
+                                    <div :style="checkDividerStyle"></div>
+                                </div>
+                                <v-img :src="picPrefix+'/square/sb_pic_charging_line.png?version=2'" max-width="42" height="76"
+                                       class="mt-4"></v-img>
+                                <v-img :src="picPrefix+'/circle/sb_icon_round.png?version=2'" max-width="86" height="100"
+                                       class="ml-4"></v-img>
+                                <div class="caption font-weight-medium d-flex align-center"
+                                     style="height: 11px;margin-left: -1px;margin-top: 80px">
+                                    <div :style="checkDividerStyle"></div>
+                                    <div :style="checkCircleStyle" class="mr-2"></div>
+                                    <div style="width: 40px;word-break: break-all;">
+                                        พอร์ตชาร์จ
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                รวมหน้าสัมผัสการชาร์จของสายชาร์จแม่เหล็กหรือแท่นชาร์จเข้ากับหน้าสัมผัสการชาร์จของนาฬิกา คุณสามารถกดค้างเพื่อเปิดใช้งานนาฬิกาและเปิดเครื่องได้
+                            </div>
+                            <div class="d-flex px-5 py-3 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/circle/sb_icon_roundwatch.png?version=2'" max-width="104" height="100"
+                                       class="ml-4"></v-img>
+                                <div class="caption font-weight-medium d-flex align-center"
+                                     style="height: 11px;margin-left: -1px;">
+                                    <div :style="checkDividerStyle"></div>
+                                    <div :style="checkCircleStyle" class="mr-2"></div>
+                                    ปุ่มด้านข้าง
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                กดปุ่มด้านข้างของนาฬิกาค้างไว้เพื่อปิดเครื่อง
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    สมาร์ทวอทช์ผูกพัน
+                                </div>
+                            </div>
+                            <div class="mt-6 d-flex px-5 pt-5 justify-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_bangding.png?version=2'" max-width="110" height="108"
+                                       class="ml-4"></v-img>
+                                <div>
+                                    <div class="caption font-weight-medium d-flex align-center mt-6"
+                                         style="height: 11px;margin-left: -1px;">
+                                        <div :style="checkDividerStyle"></div>
+                                        <div :style="checkCircleStyle" class="mr-2"></div>
+                                        สแกนการจับคู่รหัส
+                                    </div>
+                                    <div class="caption font-weight-medium d-flex align-center mt-8"
+                                         style="height: 11px;margin-left: -70px">
+                                        <svg width="60" height="11" viewBox="0 0 60 11" style="z-index: 10">
+                                            <text font-family="'PingFang SC','Microsoft Yahei'" font-size="6" x="0" y="11" fill="white">เพิ่มอุปกรณ์...</text>
+                                        </svg>
+                                        <div :style="[checkDividerStyle,{width:'41px',zIndex:10}]" class="ml-2"></div>
+                                        <div :style="checkCircleStyle" class="mr-2"></div>
+                                        จับคู่ค้นหา
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                คลิก &quot;เพิ่มอุปกรณ์&quot; เพื่อค้นหา หรือคลิก &quot;สแกนรหัส&quot; เพื่อจับคู่นาฬิกา
+                            </div>
+                            <div class="d-flex px-5 pt-5 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_search.png?version=2'" max-width="102" height="108"></v-img>
+                                <div style="position:relative;height: 108px;" class="ml-8 justify-center d-flex">
+                                    <v-img :src="picPrefix+'/square/sb_pic_scan.png?version=2'" max-width="102" height="108"></v-img>
+                                    <div class="white--text" style="position:absolute;z-index: 10;bottom:-5px;font-size: 12px;transform: scale(0.61)">สแกนคิวอาร์โค้ด</div>
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                ค้นหา: เลือกนาฬิกาของคุณในอินเทอร์เฟซการค้นหาแล้วคลิกเพื่อจับคู่
+                            </div>
+                            <div class="my-4 body-2 font-weight-light" style="color: #FF4C4C">
+                                หมายเหตุ: ในระหว่างขั้นตอนการผูก โปรดวางนาฬิกาไว้ใกล้กับโทรศัพท์ (ภายใน 1 เมตร)
+                            </div>
+                            <div class="d-flex px-5 justify-center align-center" :style="contentPicStyle">
+                                <div style="position:relative;height: 98px;" class="ml-8 justify-center d-flex mt-4 mb-4">
+                                    <v-img :src="picPrefix+'/circle/sb_pic_watchpaired.png?version=2'" max-width="78" height="98"></v-img>
+                                </div>
+                                <v-icon size="30" class="ml-2">mdi-dots-horizontal</v-icon>
+                                <v-img :src="picPrefix+'/circle/sb_pic_paired.png?version=2'" max-width="102" height="108" class="ml-3 mt-4"></v-img>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light d-flex">
+                                คลิก "<v-img :src="picPrefix+'/square/sb_btn_confirmation.png?version=2'" max-width="14" height="14"></v-img>" บนนาฬิกาเพื่อยืนยันและทำการผูกให้เสร็จสิ้น
+                            </div>
+                            <div class="my-4 body-2 font-weight-light" style="color: #FF4C4C">
+                                หมายเหตุ: นาฬิกาบางเรือนจะเชื่อมต่อโดยอัตโนมัติโดยไม่ต้องคลิกเพื่อยืนยัน
+                            </div>
+                            <div class="px-10 py-4">
+                                <v-btn dark depressed block color="#3DC3C9" href="starmax://add_device">เพิ่มอุปกรณ์</v-btn>
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle"  @click="onQuestion">
+                        <v-container>
+                            <div class="my-5 body-2 font-weight-light">
+                                หากไม่สามารถผูกอุปกรณ์ได้ โปรดตรวจสอบความช่วยเหลือต่อไปนี้:
+                            </div>
+                            <div class="d-flex px-5 justify-space-between align-center" :style="contentPicStyle">
+                                <div class="my-5 body-2 font-weight-medium" >
+                                    ไม่สามารถจับคู่อุปกรณ์ได้
+                                </div>
+                                <v-icon :size="11" color="grey">fa-solid fa-chevron-right</v-icon>
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle" :class="isIos?'mb-16':''">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    ซิงค์ข้อมูลนาฬิกาอัจฉริยะ
+                                </div>
+                            </div>
+                            <div class="d-flex px-5 pt-5 mt-6 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_bluetooth.png?version=2'" max-width="102" height="108"></v-img>
+                                <v-img :src="picPrefix+'/square/sb_pic_refresh.png?version=2'" max-width="102" height="108" class="ml-8"></v-img>
+                            </div>
+                            <div class="my-4 caption font-weight-light">
+                                การจับคู่เสร็จสิ้น และให้นาฬิกากับบลูทูธของโทรศัพท์มือถือเชื่อมต่ออยู่<br/>
+                                ดึงหน้าแรกลงมาและซิงโครไนซ์ข้อมูลนาฬิกากับโทรศัพท์
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                </div>
+                <div v-if="index == 2">
+                    <v-sheet class="mt-5" :style="sheetStyle">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    ชาร์จและเปิดใช้งานสร้อยข้อมือ
+                                </div>
+                            </div>
+                            <div class="mt-6 d-flex px-5 py-3 justify-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/wrist/sb_icon_wrist.png?version=2'" max-width="62" height="108"
+                                       class="ml-4"></v-img>
+                                <div class="caption font-weight-medium d-flex align-center"
+                                     style="height: 11px;margin-left: -1px;margin-top: 80px">
+                                    <div :style="checkDividerStyle"></div>
+                                    <div :style="checkCircleStyle" class="mr-2"></div>
+                                    พอร์ตชาร์จ USB
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                สร้อยข้อมือต้องเปิดใช้งานโดยการชาร์จก่อนใช้งานครั้งแรก (1) ดึงสายรัดและถอดส่วนหลักของสร้อยข้อมือออก (2) ใส่ขั้วชาร์จโลหะของตัวเครื่องเข้ากับพอร์ต USB เพื่อชาร์จสร้อยข้อมือ (โปรดใช้แรงดันไฟฟ้าที่ระบุ (5V) ระวังอย่าย้อนกลับการเชื่อมต่อ)
+กำไลบางตัวถูกชาร์จด้วยแรงดึงดูดของแม่เหล็ก
+                            </div>
+                            <div class="d-flex px-5 py-3 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/wrist/sb_icon_wrist1.png?version=2'" max-width="64" height="108"
+                                       class="ml-4"></v-img>
+                                <div class="caption font-weight-medium d-flex"
+                                     style="height: 11px;margin-left: -1px;margin-top: 67px">
+                                    <div :style="checkDividerStyle"></div>
+                                    <div :style="checkCircleStyle" class="mr-2"></div>
+                                    ปุ่มเปิดปิด
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                กดปุ่มเปิด/ปิดของสร้อยข้อมือค้างไว้เพื่อเปิดเครื่อง รุ่นต่างๆ จะแยกความแตกต่างระหว่างหน้าจอสัมผัสหรือปุ่ม
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    เชื่อมต่อสร้อยข้อมือ
+                                </div>
+                            </div>
+                            <div class="mt-6 d-flex px-5 pt-5 justify-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/wrist/sb_pic_bangding.png?version=2'" max-width="100" height="108"
+                                       class="ml-4"></v-img>
+                                <div>
+                                    <div class="caption font-weight-medium d-flex align-center"
+                                         style="height: 11px;margin-left: -60px;margin-top: 68px">
+                                        <svg width="60" height="11" viewBox="0 0 60 11" style="z-index: 10">
+                                            <text font-family="'PingFang SC','Microsoft Yahei'" font-size="6" x="0" y="11" fill="white">เพิ่มอุปกรณ์...</text>
+                                        </svg>
+                                        <div :style="[checkDividerStyle,{width:'41px',zIndex:10}]" class="ml-2"></div>
+                                        <div :style="checkCircleStyle" class="mr-2"></div>
+                                        จับคู่ค้นหา
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                คลิก &quot;เพิ่มอุปกรณ์&quot; เพื่อค้นหาและผูกสร้อยข้อมือ
+                            </div>
+                            <div class="d-flex px-5 pt-5 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_search.png?version=2'" max-width="102" height="108"></v-img>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light">
+                                ค้นหา: เลือกสร้อยข้อมือของคุณในอินเทอร์เฟซการค้นหาแล้วคลิกเพื่อจับคู่
+                            </div>
+                            <div class="my-4 body-2 font-weight-light" style="color: #FF4C4C">
+                                หมายเหตุ: โปรดเก็บสร้อยข้อมือไว้ใกล้กับโทรศัพท์ในระหว่างกระบวนการจับคู่ (ภายใน 1 เมตร)
+                            </div>
+                            <div class="d-flex px-5 justify-center align-center" :style="contentPicStyle">
+                                <div style="position:relative;height: 108px;" class="ml-8 justify-center d-flex mt-4 mb-4">
+                                    <v-img :src="picPrefix+'/wrist/sb_pic_watchpaired.png?version=2'" max-width="36" height="108"></v-img>
+                                </div>
+                                <v-icon size="30" class="ml-2">mdi-dots-horizontal</v-icon>
+                                <v-img :src="picPrefix+'/wrist/sb_pic_paired.png?version=2'" max-width="102" height="108" class="ml-3 mt-6"></v-img>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light d-flex">
+                                <p>คลิก "<v-img :src="picPrefix+'/square/sb_btn_confirmation.png?version=2'" max-width="14" height="14" align="right"></v-img>" บนสร้อยข้อมือเพื่อยืนยันและทำการจับคู่ให้เสร็จสิ้น</p>
+                            </div>
+                            <div class="my-4 body-2 font-weight-light" style="color: #FF4C4C">
+                                หมายเหตุ: กำไลบางอันเชื่อมต่อโดยอัตโนมัติโดยไม่ต้องคลิกเพื่อยืนยัน
+                            </div>
+                            <div class="px-10 py-4">
+                                <v-btn dark depressed block color="#3DC3C9" href="starmax://add_device">เพิ่มอุปกรณ์</v-btn>
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle"  @click="onQuestion">
+                        <v-container>
+                            <div class="my-5 body-2 font-weight-light">
+                                หากไม่สามารถผูกอุปกรณ์ได้ โปรดตรวจสอบความช่วยเหลือต่อไปนี้:
+                            </div>
+                            <div class="d-flex px-5 justify-space-between align-center" :style="contentPicStyle">
+                                <div class="my-5 body-2 font-weight-medium">
+                                    ไม่สามารถจับคู่อุปกรณ์ได้
+                                </div>
+                                <v-icon :size="11" color="grey">fa-solid fa-chevron-right</v-icon>
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                    <v-sheet class="mt-5" :style="sheetStyle" :class="isIos?'mb-16':''">
+                        <v-container>
+                            <div style="height: 18px;width: 300px;position:relative">
+                                <div style="position:absolute;top: 16px;width: 142px;height: 6px;z-index: 1">
+                                    <v-img :src="picBasePrefix+'/label_bottom.png?version=2'" max-width="142" height="6"></v-img>
+                                </div>
+                                <div class="subtitle-1 font-weight-black pl-2"
+                                     style="position:absolute;top: 0px;z-index: 2">
+                                    ซิงค์ข้อมูลสร้อยข้อมือ
+                                </div>
+                            </div>
+                            <div class="d-flex px-5 pt-5 mt-6 justify-center align-center" :style="contentPicStyle">
+                                <v-img :src="picPrefix+'/square/sb_pic_bluetooth.png?version=2'" max-width="102" height="108"></v-img>
+                                <v-img :src="picPrefix+'/square/sb_pic_refresh.png?version=2'" max-width="102" height="108" class="ml-8"></v-img>
+                            </div>
+                            <div class="my-4 caption font-weight-light">
+                                การผูกเสร็จสมบูรณ์ และให้เชื่อมต่อสร้อยข้อมือและโทรศัพท์มือถือบลูทูธ<br/>
+                                ดึงลงที่หน้าแรกเพื่อซิงโครไนซ์ข้อมูลของสร้อยข้อมือกับโทรศัพท์มือถือ
+                            </div>
+                        </v-container>
+                    </v-sheet>
+                </div>
+            </v-container>
+        </v-main>
+    </v-app>
+</script>
+<script>
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify({
+            theme:{dark: false}
+        }),
+        data: function () {
+            const checkCircleStyle = {
+                width: '5px',
+                height: '5px',
+                border: '1px solid #3DC3C9',
+                borderRadius: '50%'
+            }
+
+            const checkDividerStyle = {
+                width: '20px',
+                height: '1px',
+                background: '#3DC3C9',
+            }
+
+            const sheetStyle = {
+                borderRadius: '10px',
+            }
+
+            return {
+                index: 0,
+                sheetStyle,
+                checkDividerStyle,
+                checkCircleStyle
+            }
+        },
+        computed: {
+            selectedStyle:function(){
+              return {
+                  width: '109px',
+                  height: '120px',
+                  background: this.$vuetify.theme.dark?'#2A2A2A':'#FFFFFF',
+                  borderRadius: '10px'
+              };
+            },
+            notSelectedStyle:function(){
+                return {
+                    width: '109px',
+                    height: '120px',
+                    background: 'transparent',
+                    borderRadius: '10px',
+                };
+            },
+            contentPicStyle: function(){
+                return {
+                    borderRadius: '10px',
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'#F7F7F7'
+                }
+            },
+            picPrefix: function () {
+                return '../static/images/bind/'+(this.$vuetify.theme.dark?'dark':'light');
+            },
+            picBasePrefix: function () {
+                return '../static/images/bind';
+            },
+            bgColor: function () {
+                return {
+                    backgroundColor: this.$vuetify.theme.dark?'#121212':'#F7F7F7'
+                };
+            },
+            isIos() {
+                var u = navigator.userAgent;
+                var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                return isiOS;
+            }
+        },
+        methods: {
+            onSelected(index) {
+                this.index = index
+            },
+            onQuestion() {
+                window.location.href = "/client/questions/content/lang/th?dark="
+            }
+        },
+        template: '#app-template'
+    })
+</script>
+</body>
+</html>

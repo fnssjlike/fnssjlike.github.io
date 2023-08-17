@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="../static/vuetify/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="../static/vuetify/css/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>Fitness</title>
+</head>
+<body>
+<div id="app" :style="isAndroidOrIOS">
+    <v-app>
+        <v-main>
+            <v-carousel v-model="model" height="100%" :show-arrows="false" hide-delimiters>
+                <v-carousel-item>
+                    <div class="d-block pt-12 px-5 justify-center" :style="bgColor" style="height: 355px">
+                        <div class="d-flex justify-center">
+                            <v-img :src="picPrefix+'/background.png'" max-width="311"></v-img>
+                        </div>
+                        <div style="position:absolute;top: 40px;" class="justify-center">
+                            <v-img :src="picPrefix+'/fitness.png'" max-width="322"></v-img>
+                        </div>
+                    </div>
+                    <div class="px-10 title font-weight-black pt-9 ">
+                        Fitness
+                    </div>
+                    <div class="px-10 subtitle-1 font-weight-light pt-5" style="line-height: 23px;">
+                        Les trois mesures principales, l'activité, l'exercice et le mouvement, sont un aperçu intuitif et rapide de votre activité quotidienne. Le cercle se remplira à mesure que chaque métrique atteindra l'objectif défini.<br />
+Activité : Mesurez les calories brûlées pendant l'activité.<br />
+Exercice : mesurez la durée de vos exercices d'intensité modérée à élevée.<br />
+Mouvement : mesurez votre capacité à vous tenir debout et à marcher tout au long de la journée.
+                    </div>
+                </v-carousel-item>
+                <v-carousel-item>
+                    <div class="d-block pt-12 px-5 justify-center" :style="bgColor" style="height: 355px">
+                        <div class="d-flex justify-center">
+                            <v-img :src="picPrefix+'/background.png'" max-width="311"></v-img>
+                        </div>
+                        <div style="position:absolute;top: 100px;" class="justify-center">
+                            <v-img :src="picPrefix+'/activity.png'" max-width="322"></v-img>
+                        </div>
+                    </div>
+                    <div class="px-10 title font-weight-black pt-9">
+                        Activité
+                    </div>
+                    <div class="px-10 subtitle-1 font-weight-light pt-5" style="line-height: 23px;">
+                        Vous pouvez brûler des calories grâce à des activités quotidiennes légères, à la course, au vélo ou à la salle de sport pour améliorer votre condition physique.
+                    </div>
+                </v-carousel-item>
+                <v-carousel-item>
+                    <div class="d-block pt-12 px-5 justify-center" :style="bgColor" style="height: 355px">
+                        <div class="d-flex justify-center">
+                            <v-img :src="picPrefix+'/background.png'" max-width="311"></v-img>
+                        </div>
+                        <div style="position:absolute;top: 100px;" class="justify-center">
+                            <v-img :src="picPrefix+'/exercise.png'" max-width="322"></v-img>
+                        </div>
+                    </div>
+                    <div class="px-10 title font-weight-black pt-9">
+                        Exercice
+                    </div>
+                    <div class="px-10 subtitle-1 font-weight-light pt-5" style="line-height: 23px;">
+                        L&#039;exercice est le temps passé à enregistrer une activité d&#039;intensité modérée à élevée. 30 à 40 minutes d&#039;exercice d&#039;intensité modérée à élevée chaque jour peuvent aider à réduire le risque de maladies chroniques.
+                    </div>
+                </v-carousel-item>
+                <v-carousel-item>
+                    <div class="d-block pt-12 px-5 justify-center" :style="bgColor" style="height: 355px">
+                        <div class="d-flex justify-center">
+                            <v-img :src="picPrefix+'/background.png'" max-width="311"></v-img>
+                        </div>
+                        <div style="position:absolute;top: 100px;">
+                            <v-img :src="picPrefix+'/walkaround.png?version=2'" max-width="322"></v-img>
+                        </div>
+                    </div>
+                    <div class="px-10 title font-weight-black pt-9">
+                        Mouvement
+                    </div>
+                    <div class="px-10 subtitle-1 font-weight-light pt-5" style="line-height: 23px;">
+                        Mouvement, c&#039;est se fixer un objectif d&#039;activité horaire et enregistrer la somme des heures lorsque l&#039;objectif est atteint. Se tenir debout et marcher toutes les heures peut aider à réduire le risque de maladies chroniques causées par une position assise prolongée.
+                    </div>
+                </v-carousel-item>
+            </v-carousel>
+            <v-footer app color="transparent">
+                <v-row justify="center" class="pb-6" :class="isIos?'mb-16':''">
+                    <div v-for="index in 4">
+                        <div style="border-radius: 3px;width: 18px;height:6px;background: #3DC3C9" class="ml-1" v-if="index-1 == model"></div>
+                        <div style="border-radius: 3px;width: 6px;height:6px;background: #BDF0F2" class="ml-1" v-else></div>
+                    </div>
+                </v-row>
+            </v-footer>
+        </v-main>
+    </v-app>
+</div>
+
+<script src="../static/vuetify/js/vue.js"></script>
+<script src="../static/vuetify/js/vuetify.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify({
+            theme:{dark: false}
+        }),
+        data:function(){
+            return {
+                model:0
+            }
+        },
+        computed: {
+            picPrefix: function () {
+                return '../static/images/fitness/'+(this.$vuetify.theme.dark?'dark':'light');
+            },
+            picBasePrefix: function () {
+                return '../static/images/fitness';
+            },
+            bgColor: function () {
+                return {
+                    backgroundColor: this.$vuetify.theme.dark?'#404040':'#F7F7F7'
+                };
+            },
+            isIos() {
+                var u = navigator.userAgent;
+                var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                if (isiOS) {
+                    return true
+                }
+
+                return false
+            }
+        }
+    })
+</script>
+</body>
+</html>
