@@ -9,9 +9,17 @@
     <link href="../static/css/froala_style.min.css" rel="stylesheet">
     <link href="../static/css/dark.min.css" rel="stylesheet">
     <style>
-        body{
-            background-color: white;
-            color: black;
+        @media (prefers-color-scheme: no-preference) {
+            body{
+                background-color: white;
+                color: black;
+            }
+        }
+        @media (prefers-color-scheme: light) {
+            body{
+                background-color: white;
+                color: black;
+            }
         }
         @media (prefers-color-scheme: dark) {
             body{
