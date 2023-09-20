@@ -6390,7 +6390,7 @@
 
     /**
      * Virtual DOM patching algorithm based on Snabbdom by
-     * Simon Friis Vindum (@paldepind)
+     * Fnssj Friis Vindum (@paldepind)
      * Licensed under the MIT License
      * https://github.com/paldepind/snabbdom/blob/master/LICENSE
      *
